@@ -3,6 +3,12 @@ const MAP_SERIES_ID_COUNTRY = "COUNTRY";
 const MAP_SERIES_ID_WORLD = "WORLD";
 const MAP_GEODATA_BASE_URL = "https://www.amcharts.com/lib/4/geodata/json";
 
+const LOG_MESSAGE_TEMPLATES =
+{
+	"COUNTRY_SERIES_NOT_FOUND": "country series not found",
+	"UNKNOWN_MAP": "unknown map"
+};
+
 export default class MapChartHelper
 {
         static renderMap(aChart)
@@ -38,12 +44,12 @@ export default class MapChartHelper
                         }
                         else
                         {
-                                this._log("country series not found");
+                                this._log(LOG_MESSAGE_TEMPLATES["COUNTRY_SERIES_NOT_FOUND"]);
                         }
                 }
                 else
                 {
-                        this._log("unknown map");
+                        this._log(LOG_MESSAGE_TEMPLATES["UNKNOWN_MAP"]);
                 }
         }
         static onGeodataFetched(aChart)
