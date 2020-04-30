@@ -1,7 +1,9 @@
 const MAP_GEODATA_CONFIG_COUNTRIES = require("./config/countries");
 const MAP_SERIES_ID_COUNTRY = "COUNTRY";
 const MAP_SERIES_ID_WORLD = "WORLD";
+const MAP_SERIES_ID_BUBBLE = "BUBBLE";
 const MAP_GEODATA_BASE_URL = "https://www.amcharts.com/lib/4/geodata/json";
+const MAP_BUBBLES_COLOR = "#8aabb0";
 
 const LOG_MESSAGE_TEMPLATES =
 {
@@ -13,9 +15,8 @@ export default class MapChartHelper
 {
         static renderMap(aChart)
         {
-                this._prepareGeneralConfig(aChart); // config - geral        
-                this._prepareWorldSeries(aChart); // config - mundo
-                this._prepareCountrySeries(aChart); // config - país
+        	this._prepareMap(aChart);
+                this._prepareBubbles(aChart);
         }
         static onHomeSelected(aChart)
         {
@@ -59,6 +60,12 @@ export default class MapChartHelper
                 oWorldSeries.hide();
                 oCountrySeries.show();
         }
+        static _prepareMap(aChart)
+        {
+                this._prepareGeneralConfig(aChart); // config - geral        
+                this._prepareWorldSeries(aChart); // config - mundo
+                this._prepareCountrySeries(aChart); // config - país
+        }
         static _prepareGeneralConfig(aChart)
         {
                 aChart.seriesContainer.events.disableType("doublehit");
@@ -95,6 +102,79 @@ export default class MapChartHelper
                 oCountrySeries.geodataSource.events.on("done", () => this.onGeodataFetched(aChart));
                 const oCountryPolygon = oCountrySeries.mapPolygons.template;
                 this._prepareSeriesPolygons(aChart, oCountryPolygon);
+        }
+        static _prepareBubbles(aChart)
+        {
+        	const oData = this._getBubblesData();
+        	this._prepareBubbleSeries(aChart, oData);
+        }
+        static _prepareBubbleSeries(aChart, aData)
+        {
+        	const oBubbleSeries = aChart.series.push(new am4maps.MapImageSeries());
+        	oBubbleSeries.id = MAP_SERIES_ID_BUBBLE;
+		oBubbleSeries.data = aData;
+		oBubbleSeries.dataFields.value = "value";
+
+		const oBubbleTemplate = oBubbleSeries.mapImages.template;
+		oBubbleTemplate.nonScaling = true;
+
+		const oWorldSeries = this._findSeries(aChart, MAP_SERIES_ID_WORLD);
+		oBubbleTemplate.adapter.add("latitude", (latitude, target) => 
+		{
+			const sCountryId = target.dataItem.dataContext.id;
+			const oCountryPolygon = oWorldSeries.getPolygonById(sCountryId);
+			if (oCountryPolygon)
+			{
+				return oCountryPolygon.visualLatitude;
+			}
+			return latitude;
+		});
+
+		oBubbleTemplate.adapter.add("longitude", (longitude, target) => 
+		{
+			const sCountryId = target.dataItem.dataContext.id;
+			const oCountryPolygon = oWorldSeries.getPolygonById(sCountryId);
+			if (oCountryPolygon)
+			{
+				return oCountryPolygon.visualLongitude;
+			}
+			return longitude;
+		});
+
+		const oCircle = oBubbleTemplate.createChild(am4core.Circle);
+		oCircle.fillOpacity = 0.7;
+		oCircle.propertyFields.fill = "color";
+
+		oBubbleSeries.heatRules.push({
+		  "target": oCircle,
+		  "property": "radius",
+		  "min": 4,
+		  "max": 30,
+		  "dataField": "value"
+		});
+        }
+        static _prepareBubblesData(aData)
+        {        
+        	return aData.map(aEntry =>
+        	{
+        		const aModifiedEntry = aEntry;
+        		aEntry.color = MAP_BUBBLES_COLOR;
+        		return aModifiedEntry;
+        	});
+        }
+        static _getBubblesData()
+        {
+        	const oData = [
+			  { "id": "AF", "value": 32358260 },
+			  { "id": "DZ", "value": 35980193 },
+			  { "id": "AO", "value": 19618432 },
+			  { "id": "AR", "value": 40764561 },
+			  { "id": "AM", "value": 3100236 },
+			  { "id": "AU", "value": 22605732 },
+			  { "id": "BH", "value": 1323535 },
+			  { "id": "BD", "value": 150493658 }
+			];
+		return this._prepareBubblesData(oData);
         }
         static _findSeries(aChart, aSeriesName)
         {
