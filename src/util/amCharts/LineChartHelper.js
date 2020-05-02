@@ -1,41 +1,60 @@
 export default class LineChartHelper
 {
-	static renderLineChart(aChart, aCountryId)
+        static renderLineChart(aLineChart)
         {
-        	// const oLineChart = aChart.createChild(am4charts.XYChart);
-        	// oLineChart.data = this._getLineChartData(aCountryId);
-
-        	// this._prepareLineSeries(aChart);
+                aLineChart.data = this._getLineChartData();
+                this._prepareLineSeries(aLineChart);
+                this._setVisibility(aLineChart, false);
+        }
+        static onCountryExit(aLineChart)
+        {
+        	this._setVisibility(aLineChart, false);
+        }
+        static onCountryChanged(aLineChart, aCountryId)
+        {
+                aLineChart.data = this._getLineChartData(aCountryId);
+                this._setVisibility(aLineChart, true);
+        }
+        static _setVisibility(aLineChart, aShow)
+        {     
+        	aLineChart.setDisabled(!aShow);	
+        	if (aShow) aLineChart.show();
         }
         static _getLineChartData(aCountryId)
         {
-        	return [ {"x": 1, "y": "a"}, {"x": 2, "y": "b"} ];
+                return [
+                {
+                        "date": "2012-01-01",
+                        "value": 1111
+                },
+                {
+                        "date": "2013-03-03",
+                        "value": 33
+                }];
         }
-        static _prepareLineSeries(aChart)
+        static _prepareLineSeries(aLineChart)
         {
-        	this._prepareLineAxis(aChart);
+                aLineChart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+                aLineChart.cursor = new am4charts.XYCursor();
+                aLineChart.cursor.behavior = "panXY";
+                aLineChart.cursor.xAxis = oDateAxis;
+                aLineChart.cursor.snapToSeries = oLineSeries;                
 
-        	const oLineSeries = aChart.series.push(new am4charts.LineSeries());
-        	oLineSeries.dataFields.categoryX = "x";        	
-        	oLineSeries.dataFields.valueY = "y";
-        	oLineSeries.name = "line series test";
-        	oLineSeries.tooltipText = "{name}: [bold]{valueY}[/]";
-		oLineSeries.strokeWidth = 3;
+                const oDateAxis = aLineChart.xAxes.push(new am4charts.DateAxis());
+                oDateAxis.dataFields.dateX = "date";
 
-		aChart.legend = new am4charts.Legend();
-        }
-        static _prepareLineAxis(aChart)
-        {
-		const oCategoryAxis = aChart.xAxes.push(new am4charts.CategoryAxis());
-		oCategoryAxis.dataFields.category = "x";
-		oCategoryAxis.renderer.minGridDistance = 40;
-		oCategoryAxis.title.text = "category test";
+                const oValueAxis = aLineChart.yAxes.push(new am4charts.ValueAxis());
 
-		const oValueAxis = aChart.yAxes.push(new am4charts.ValueAxis());
-		oValueAxis.title.text = "value test";
+                const oLineSeries = aLineChart.series.push(new am4charts.LineSeries());             
+                oLineSeries.name = "Web Traffic";
+                oLineSeries.dataFields.dateX = "date";
+                oLineSeries.dataFields.valueY = "value";
+
+                const oBullet = oLineSeries.bullets.push(new am4charts.CircleBullet());
+                oBullet.circle.fill = am4core.color("#fff");
         }
         static _log(aMessage)
         {
                 console.warn(`COVIData > amCharts > LineChartHelper: ${aMessage}`);
-        }        
+        }
 }

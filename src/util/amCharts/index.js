@@ -4,12 +4,12 @@ export default class amChartsHelper
 {
         static renderMap(aDivId)
         {
-                const oChart = this._createChart(aDivId, am4maps.MapChart);
-                MapChartHelper.renderMap(oChart);
+                const oMapChart = this._createElement(aDivId, am4maps.MapChart);
+                MapChartHelper.renderMap(oMapChart);
         }
         static renderPie(aDivId)
         {
-                const oChart = this._createChart(aDivId, am4charts.PieChart);
+                const oChart = this._createElement(aDivId, am4charts.PieChart);
                 oChart.legend = new am4charts.Legend();
                 oChart.data = [
                 {
@@ -26,28 +26,28 @@ export default class amChartsHelper
         }
         static onDispose(aDivId)
         {
-                const oChart = this.oChart[aDivId];
-                if (oChart)
+                const oElement = this.oElements[aDivId];
+                if (oElement)
                 {
-                        oChart.dispose();
+                        oElement.dispose();
                 }
         }        
-        static _createChart(aDivId, aChartType)
+        static _createElement(aDivId, aElementType)
         {
                 this._init();
                 this.onDispose(aDivId);
-                this.oChart[aDivId] = am4core.create(aDivId, aChartType);
-                return this.oChart[aDivId];
+                this.oElements[aDivId] = am4core.create(aDivId, aElementType);
+                return this.oElements[aDivId];
         }
         static _init()
         {
-                if (!this.oChart)
+                if (!this.oElements)
                 {
-                        this.oChart = {};
+                        this.oElements = {};
                 }
         }
         static _log(aMessage)
         {
-                console.warn(`COVIData > amCharts: ${aMessage}`);
+                console.warn(`COVIData > amCharts > general module: ${aMessage}`);
         }
 }
