@@ -29,6 +29,7 @@ class MainPage extends React.Component
 	componentDidMount()
 	{
 	      // prepara e renderiza todo o mapa (e tudo lhe está associado)
+	      // > só precisas de indicar o id da div onde estará presente o mapa e tudo mais
 	      const oMapChart = amChartsHelper.renderMap("amcharts-test");
 
 	      // eventos:
