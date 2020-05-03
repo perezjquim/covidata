@@ -19,28 +19,47 @@ class MainPage extends React.Component
 		return (<Page renderToolbar={() => <NavBar title='Onsen Weather' navigator={this.props.navigator} />}>
 		    <LocationList navigator={this.props.navigator} />
 		    <AddLocation />
-		    {/* >>> testes */}
+		    {/* >>> div onde será renderizada o mapa e etc */}
 		    <div id="amcharts-test"/>
-		    {/* <<< testes */}
+		    {/* <<< div onde será renderizada o mapa e etc */}
 		  </Page>
 		);
 	}
 
 	componentDidMount()
 	{
+	      // prepara e renderiza todo o mapa (e tudo lhe está associado)
 	      const oMapChart = amChartsHelper.renderMap("amcharts-test");
-	      oMapChart.events.on("onCountrySelected", function(oData)
+
+	      // eventos:
+	      // > onReady: quando o mapa está preparado e renderizado
+	      // > onCountrySelected: quando o mapa entrar na visão de país (ao ser selecionado um no mapa)
+	      // > onWorldView: quando o mapa voltar à visão mundial (ex.: ao clicarem no botão "home" do mapa)
+	      oMapChart.events.on("onReady", (aEvent) =>
 	      {
-	      	alert("onCountrySelected");
+	      		console.log("onReady");
 	      });
-	      oMapChart.events.on("onCountryGeodataFetched", function(oData)
+	      oMapChart.events.on("onCountrySelected", (aEvent) =>
 	      {
-	      	alert("onCountryGeodataFetched");
-	      });	      
-	      oMapChart.events.on("onHomeSelected", function(oData)
+		      	const sCountryId = aEvent.target.sSelectedCountry;
+		      	console.log(`onCountrySelected - ${sCountryId}`);
+	      });
+	      oMapChart.events.on("onWorldView", (aData) => 
 	      {
-	      	alert("onHomeSelected");
-	      });	      
+	      		console.log("onWorldView");
+	      });
+
+	      // chamadas que poderás ter que fazer:
+	      // > toWorldView: voltar para a visão mundial      
+	      // > toCountryView: navegar para um dado país
+	      oMapChart.events.on("onReady", (aEvent) =>
+	      {
+	      		amChartsHelper.toCountryView(oMapChart, 'PT');
+			oMapChart.events.once("onCountrySelected", (aEvent) =>
+			{
+			      	setTimeout(() => amChartsHelper.toWorldView(oMapChart), 5000);
+			});
+	      });
 	}
 
 	componentWillUnmount()

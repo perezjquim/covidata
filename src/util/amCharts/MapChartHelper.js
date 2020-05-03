@@ -17,11 +17,20 @@ export default class MapChartHelper
         {
                 this._prepareMap(aMapChart);
         }
+        static toWorldView(aMapChart)
+        {
+        	this.onHomeSelected(aMapChart);
+        }       
+        static toCountryView(aMapChart, aCountryId)
+        {
+        	const oWorldSeries = this._findSeries(aMapChart, MAP_SERIES_ID_WORLD);
+        	const oCountryPolygon = oWorldSeries.getPolygonById(aCountryId);
+        	oCountryPolygon.dispatch("hit", oCountryPolygon);
+        }
         static onHomeSelected(aMapChart)
         {
                 this._setWorldVisibility(aMapChart, true);
                 aMapChart.goHome();
-                aMapChart.dispatch("onHomeSelected");
         }
         static onCountrySelected(aEvent)
         {
@@ -40,7 +49,8 @@ export default class MapChartHelper
                                 oCountrySeries.geodataSource.events.once("done", () => this.onCountryGeodataFetched(oMapChart, sCountryId));
                                 oCountrySeries.geodataSource.url = `${MAP_GEODATA_BASE_URL}/${sMapName}.json`;
                                 oCountrySeries.geodataSource.load();
-                                oMapChart.dispatch("onCountrySelected", { "country_id": sCountryId });
+                                oMapChart.sSelectedCountry = sCountryId;
+                                oMapChart.dispatch("onCountrySelected");
                         }
                         else
                         {
@@ -59,7 +69,6 @@ export default class MapChartHelper
                 if (oCountryLineChart)
                 {
                 	LineChartHelper.onCountryChanged(oCountryLineChart, aCountryId);
-                	aMapChart.dispatch("onCountryGeodataFetched", { "country_id": aCountryId });
                 }
                 else
                 {
@@ -112,6 +121,7 @@ export default class MapChartHelper
                 oWorldSeries.useGeodata = true;
                 oWorldSeries.geodata = am4geodata_worldLow;
                 oWorldSeries.exclude = ["AQ"];
+                oWorldSeries.events.once("ready", (aEvent) => aMapChart.dispatch("onReady"));
 
                 const oWorldPolygon = oWorldSeries.mapPolygons.template;
                 oWorldPolygon.events.on("hit", this.onCountrySelected.bind(this));
@@ -185,6 +195,7 @@ export default class MapChartHelper
                         oCountrySeries.hide();
                         oCountryBubbles.hide();
                         LineChartHelper.onCountryExit(oCountryLineChart);
+                        aMapChart.dispatch("onWorldView");
                 }
                 else
                 {
@@ -212,6 +223,7 @@ export default class MapChartHelper
         }
         static _getCountryBubblesData(aCountryId)
         {
+        	// TODO - descartar info dummy
                 const oData = [
                 {
                         "id": "AF",
@@ -238,6 +250,7 @@ export default class MapChartHelper
         }
         static _getWorldBubblesData()
         {
+        	// TODO - descartar info dummy        	
                 const oData = [
                 {
                         "id": "AU",

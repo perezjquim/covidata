@@ -22,6 +22,7 @@ export default class LineChartHelper
         }
         static _getLineChartData(aCountryId)
         {
+        	// TODO - descartar info dummy        	
                 return [
                 {
                         "date": "2012-01-01",

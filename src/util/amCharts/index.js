@@ -8,6 +8,14 @@ export default class amChartsHelper
                 MapChartHelper.renderMap(oMapChart);
                 return oMapChart;
         }
+        static toWorldView(aMapChart)
+        {
+                MapChartHelper.toWorldView(aMapChart);                
+        }
+        static toCountryView(aMapChart, aCountryId)
+        {
+                MapChartHelper.toCountryView(aMapChart, aCountryId);
+        }
         static renderPie(aDivId)
         {
                 const oChart = this._createElement(aDivId, am4charts.PieChart);
