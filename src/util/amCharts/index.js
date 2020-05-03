@@ -6,6 +6,7 @@ export default class amChartsHelper
         {
                 const oMapChart = this._createElement(aDivId, am4maps.MapChart);
                 MapChartHelper.renderMap(oMapChart);
+                return oMapChart;
         }
         static renderPie(aDivId)
         {

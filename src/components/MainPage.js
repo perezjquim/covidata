@@ -28,7 +28,19 @@ class MainPage extends React.Component
 
 	componentDidMount()
 	{
-	      amChartsHelper.renderMap("amcharts-test");
+	      const oMapChart = amChartsHelper.renderMap("amcharts-test");
+	      oMapChart.events.on("onCountrySelected", function(oData)
+	      {
+	      	alert("onCountrySelected");
+	      });
+	      oMapChart.events.on("onCountryGeodataFetched", function(oData)
+	      {
+	      	alert("onCountryGeodataFetched");
+	      });	      
+	      oMapChart.events.on("onHomeSelected", function(oData)
+	      {
+	      	alert("onHomeSelected");
+	      });	      
 	}
 
 	componentWillUnmount()

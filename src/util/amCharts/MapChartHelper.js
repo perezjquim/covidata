@@ -21,6 +21,7 @@ export default class MapChartHelper
         {
                 this._setWorldVisibility(aMapChart, true);
                 aMapChart.goHome();
+                aMapChart.dispatch("onHomeSelected");
         }
         static onCountrySelected(aEvent)
         {
@@ -39,6 +40,7 @@ export default class MapChartHelper
                                 oCountrySeries.geodataSource.events.once("done", () => this.onCountryGeodataFetched(oMapChart, sCountryId));
                                 oCountrySeries.geodataSource.url = `${MAP_GEODATA_BASE_URL}/${sMapName}.json`;
                                 oCountrySeries.geodataSource.load();
+                                oMapChart.dispatch("onCountrySelected", { "country_id": sCountryId });
                         }
                         else
                         {
@@ -48,7 +50,7 @@ export default class MapChartHelper
                 else
                 {
                         this._log(LOG_MESSAGE_TEMPLATES["UNKNOWN_MAP"]);
-                }
+                }               
         }
         static onCountryGeodataFetched(aMapChart, aCountryId)
         {
@@ -57,6 +59,7 @@ export default class MapChartHelper
                 if (oCountryLineChart)
                 {
                 	LineChartHelper.onCountryChanged(oCountryLineChart, aCountryId);
+                	aMapChart.dispatch("onCountryGeodataFetched", { "country_id": aCountryId });
                 }
                 else
                 {
