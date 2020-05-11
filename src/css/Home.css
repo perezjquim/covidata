@@ -1,0 +1,152 @@
+.infected {
+    color: yellow !important;
+    width: 100% !important;
+    margin: auto;
+}
+
+.dead {
+    color: red !important;
+    width: 60% !important;
+    margin: auto !important;
+}
+
+.recovered {
+    color: lime !important;
+    width: 80% !important;
+    margin: auto !important;
+}
+
+.graph-circle {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.page-container {
+    margin: auto 15px;
+}
+
+.progress-circular__secondary {
+    opacity: 0.35;
+}
+
+.progress-circular__primary, .progress-circular__secondary {
+    stroke: currentColor !important;
+    stroke-width: 5%;
+}
+
+ons-progress-circular {
+    height: auto !important;
+}
+
+.title {
+    margin: 7% 0;
+}
+
+.title-main {
+    display: inline;
+    color: white;
+}
+
+.title-secondary {
+    display: inline;
+    color: rgb(244, 121, 255);
+    font-size: 1.8em;
+}
+
+.donut-scale-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.donut-scale-graph {
+    position: relative;
+    width: 60%;
+}
+
+.donut-scale-stats-container {
+    width: 40%;
+}
+
+.donut-scale-stats {
+    margin: 5px 0;
+}
+
+.donut-scale-text-container {
+    display: flex;
+    align-items: center;
+}
+
+.donut-scale-dot {
+    width: 15px;
+    height: auto;
+}
+
+.text-stats {
+    margin: 0 0;
+    color: white;
+}
+
+.stats-title {
+    font-weight: bolder;
+    font-family: 'Noto Sans TC', sans-serif !important;
+    font-size: 1.4em;
+}
+
+.stats-desc {
+    font-size: .7em;
+}
+
+.bookmark-container {
+    margin: 40px 10px;
+}
+
+.bookmark {
+    background-color: rgba(255, 255, 255, 0.22);
+    padding: 6px;
+    border-radius: 24px;
+    margin: 10px 5px;
+    position: relative;
+}
+
+.bookmark-delete {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    width: 15px;
+    height: auto;
+}
+
+.bookmark-add {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    height: auto;
+}
+
+.bookmark-add-icon {
+    width: 100%;
+    height: auto;
+}
+
+.bookmark-stats-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.bookmark-stats {
+    text-align: center;
+}
+
+.bookmark-title {
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 2%;
+    text-transform: uppercase;
+}
