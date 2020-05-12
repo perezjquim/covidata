@@ -1,0 +1,58 @@
+.dialog-container--material {
+    border-radius: 16px !important;
+    background-color: rgb(0, 0, 0, 0.3) !important;
+}
+
+.dialog {
+    height: 80% !important;
+}
+
+.popup-container {
+    margin: auto;
+    width: 80%;
+}
+
+.country-container {
+    margin: 5% auto;
+    width: 100%;
+    height: 66vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.country {
+    display: flex;
+    align-items: center;
+    margin: 4% auto;
+}
+
+.country-flag {
+    width: 25px;
+    height: auto;
+}
+
+.country-name {
+    color: white;
+    margin-left: 5px;
+    font-size: 1.1em;
+}
+
+.search-container {
+    width: 100%;
+    margin: 10% auto;
+}
+
+.search-input {
+    border: none !important;
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    padding: 15px 15px !important;
+    margin-right: 0 !important;
+    border-radius: 30px !important;
+    padding-left: 30px !important;
+}
+
+.search-container ::placeholder {
+    color: white !important;
+}

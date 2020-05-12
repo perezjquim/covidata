@@ -15,22 +15,77 @@ import RedDot from '../icons/dot-red.svg';
 import GreenDot from '../icons/dot-green.svg';
 
 import NavBar from './NavBar';
+import PopUpDialog from '../containers/PopUpDialog';
 
 // >>> amcharts helper
 import amChartsHelper from '../util/amCharts';
 // <<< amcharts helper
 
 class MainPage extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			visible: false
+		};
+		this.handleDeleteBookmark = this.handleDeleteBookmark.bind(this);
+		this.handleAddBookmark = this.handleAddBookmark.bind(this);
+		this.handleCloseBookmark = this.handleCloseBookmark.bind(this);
+	}
 
-	handleDeleteBookmark() {
-		alert("Bookmark deleted");
+	handleDeleteBookmark(e) {
+		console.log("Bookmark deleted: " + e);
 	}
 
 	handleAddBookmark() {
-		alert("Bookmark added");
+		console.log("Bookmark added");
+		this.setState({
+			visible: true
+		});
+	}
+
+	handleCloseBookmark() {
+		console.log("Bookmark closed");
+		this.setState({
+			visible: false
+		});
+
+		document.getElementById('search').value = '';
 	}
 
 	render() {
+		const placeholderItem = {
+			0: { name: "Afghanistan" },
+			1: { name: "Afghanistan" },
+			2: { name: "Afghanistan" },
+			3: { name: "Afghanistan" },
+			4: { name: "Afghanistan" },
+			5: { name: "Afghanistan" },
+			6: { name: "Afghanistan" },
+			7: { name: "Afghanistan" },
+			8: { name: "Afghanistan" },
+			9: { name: "Afghanistan" },
+			10: { name: "Afghanistan" },
+			11: { name: "Afghanistan" },
+			12: { name: "Afghanistan" },
+			13: { name: "Afghanistan" },
+			14: { name: "Afghanistan" },
+			15: { name: "Afghanistan" },
+			16: { name: "Afghanistan" },
+			17: { name: "Afghanistan" },
+			18: { name: "Afghanistan" },
+			19: { name: "Afghanistan" },
+			20: { name: "Afghanistan" },
+			21: { name: "Afghanistan" },
+			22: { name: "Afghanistan" },
+			23: { name: "Afghanistan" },
+			24: { name: "Afghanistan" },
+			25: { name: "Afghanistan" },
+			26: { name: "Afghanistan" },
+			27: { name: "Afghanistan" },
+			28: { name: "Afghanistan" },
+			29: { name: "Afghanistan" },
+		};
+
 		return (
 			<Page className="background" renderBottomToolbar={() => <NavBar title='Onsen Weather' navigator={this.props.navigator} />}>
 				<div className="page-container">
@@ -121,10 +176,33 @@ class MainPage extends React.Component {
 
 					</div>
 
+					<PopUpDialog visible={this.state.visible} handleCloseBookmark={this.handleCloseBookmark}>
+						<div className="search-container">
+							<form className="search-form">
+								<input autofocus id="search" className="search-input" type="text" placeholder="Qual o país que procura?"
+									name="search"></input>
+							</form>
+						</div>
+
+						<div className="country-container">
+							{Object.values(placeholderItem).map(function (element, index) {
+								return (
+									<div className="country">
+										<img className="country-flag" src="https://lh3.googleusercontent.com/proxy/iJ01fO11ZubDU1n4Uez9-GcIVDvza1gH9zylyUl8IFTPIJjJMBdTGGaKzAVq1nxdz-5gNis4leoLTLbZ6Hug5E0Z1uNq"></img>
+										<div className="country-name">
+											{element.name} , {index}
+										</div>
+									</div>
+								);
+							})}
+
+						</div>
+					</PopUpDialog>
+
 					<div className="bookmark-add"><img onClick={this.handleAddBookmark} className="bookmark-add-icon" src={AddIcon} /></div>
 				</div>
 
-			</Page>
+			</Page >
 		);
 	}
 
