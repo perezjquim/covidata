@@ -8,13 +8,14 @@ import {
   Toolbar
 } from 'react-onsenui';
 
-const NavApp = () => (
+const NavApp = ({ navigator }) => (
   <Toolbar className="toolbar-container" modifier="transparent">
     <div className="center">
       <img src={DotGray} />
       <img src={DotGray} />
       <img src={DotWhite} />
       <img src={DotGray} />
+      {navigator && <h4>teste</h4>}
     </div>
   </Toolbar>
 );

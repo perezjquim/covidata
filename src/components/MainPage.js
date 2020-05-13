@@ -1,4 +1,5 @@
 import React from 'react';
+import { Swipeable } from 'react-swipeable';
 
 import '../css/Page.css';
 import '../css/Home.css';
@@ -19,6 +20,7 @@ import PopUpDialog from '../containers/PopUpDialog';
 
 // >>> amcharts helper
 import amChartsHelper from '../util/amCharts';
+import WorldMapPage from './WorldMapPage';
 // <<< amcharts helper
 
 class MainPage extends React.Component {
@@ -86,123 +88,126 @@ class MainPage extends React.Component {
 			29: { name: "Afghanistan" },
 		};
 
+		let { navigator } = this.props;
+
 		return (
-			<Page className="background" renderBottomToolbar={() => <NavBar title='Onsen Weather' navigator={this.props.navigator} />}>
-				<div className="page-container">
-					<div className="title">
-						<h1 className="title-main">COVID</h1>
-						<span className="title-secondary">ata</span>
-					</div>
-
-					<div className="donut-scale-container">
-						<div className="donut-scale-graph">
-							<ProgressCircular className="graph-circle infected" value={100} secondaryValue={100} />
-							<ProgressCircular className="graph-circle recovered" value={65} secondaryValue={100} />
-							<ProgressCircular className="graph-circle dead" value={28} secondaryValue={100} />
-						</div>
-						<div className="donut-scale-stats-container">
-							<div className="donut-scale-text-container">
-								<div>
-									<img className="donut-scale-dot" src={YellowDot} />
-								</div>
-								<div className="donut-scale-stats">
-									<h3 className="stats-title text-stats">100 921</h3>
-									<h4 className="stats-desc text-stats">casos</h4>
-								</div>
-							</div>
-
-							<div className="donut-scale-text-container">
-								<div>
-									<img className="donut-scale-dot" src={GreenDot} />
-								</div>
-								<div className="donut-scale-stats">
-									<h3 className="stats-title text-stats">12 921</h3>
-									<h4 className="stats-desc text-stats">recuperados</h4>
-								</div>
-							</div>
-
-							<div className="donut-scale-text-container">
-								<div>
-									<img className="donut-scale-dot" src={RedDot} />
-								</div>
-								<div className="donut-scale-stats">
-									<h3 className="stats-title text-stats">5 546</h3>
-									<h4 className="stats-desc text-stats">mortos</h4>
-								</div>
-							</div>
-
-						</div>
-					</div>
-
-					<div className="bookmark-container">
-
-						<div className="bookmark">
-							<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
-							<h1 className="bookmark-title text-stats">Portugal</h1>
-							<div className="bookmark-stats-container">
-								<div className="bookmark-stats">
-									<h1 className="stats-title text-stats">10</h1>
-									<h1 className="stats-desc text-stats">casos</h1>
-								</div>
-								<div className="bookmark-stats">
-									<h1 className="stats-title text-stats">5</h1>
-									<h1 className="stats-desc text-stats">recuperados</h1>
-								</div>
-								<div className="bookmark-stats">
-									<h1 className="stats-title text-stats">12</h1>
-									<h1 className="stats-desc text-stats">mortos</h1>
-								</div>
-							</div>
+			<Page className="background" renderBottomToolbar={() => <NavBar title='Onsen Weather' navigator={navigator} />}>
+				<Swipeable style={{ width: "50vh", height: "99vh" }} onSwipedLeft={() => navigator.pushPage({ component: WorldMapPage, key: 'WORLD_MAP_PAGE' })} >
+					<div className="page-container" >
+						<div className="title">
+							<h1 className="title-main">COVID</h1>
+							<span className="title-secondary">ata</span>
 						</div>
 
-						<div className="bookmark">
-							<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
-							<h1 className="bookmark-title text-stats">Portugal</h1>
-							<div className="bookmark-stats-container">
-								<div className="bookmark-stats">
-									<h1 className="stats-title text-stats">10</h1>
-									<h1 className="stats-desc text-stats">casos</h1>
-								</div>
-								<div className="bookmark-stats">
-									<h1 className="stats-title text-stats">5</h1>
-									<h1 className="stats-desc text-stats">recuperados</h1>
-								</div>
-								<div className="bookmark-stats">
-									<h1 className="stats-title text-stats">12</h1>
-									<h1 className="stats-desc text-stats">mortos</h1>
-								</div>
+						<div className="donut-scale-container">
+							<div className="donut-scale-graph">
+								<ProgressCircular className="graph-circle infected" value={100} secondaryValue={100} />
+								<ProgressCircular className="graph-circle recovered" value={65} secondaryValue={100} />
+								<ProgressCircular className="graph-circle dead" value={28} secondaryValue={100} />
 							</div>
-						</div>
-
-					</div>
-
-					<PopUpDialog visible={this.state.visible} handleCloseBookmark={this.handleCloseBookmark}>
-						<div className="search-container">
-							<form className="search-form">
-								<input autofocus id="search" className="search-input" type="text" placeholder="Qual o país que procura?"
-									name="search"></input>
-							</form>
-						</div>
-
-						<div className="country-container">
-							{Object.values(placeholderItem).map(function (element, index) {
-								return (
-									<div className="country">
-										<img className="country-flag" src="https://lh3.googleusercontent.com/proxy/iJ01fO11ZubDU1n4Uez9-GcIVDvza1gH9zylyUl8IFTPIJjJMBdTGGaKzAVq1nxdz-5gNis4leoLTLbZ6Hug5E0Z1uNq"></img>
-										<div className="country-name">
-											{element.name} , {index}
-										</div>
+							<div className="donut-scale-stats-container">
+								<div className="donut-scale-text-container">
+									<div>
+										<img className="donut-scale-dot" src={YellowDot} />
 									</div>
-								);
-							})}
+									<div className="donut-scale-stats">
+										<h3 className="stats-title text-stats">100 921</h3>
+										<h4 className="stats-desc text-stats">casos</h4>
+									</div>
+								</div>
+
+								<div className="donut-scale-text-container">
+									<div>
+										<img className="donut-scale-dot" src={GreenDot} />
+									</div>
+									<div className="donut-scale-stats">
+										<h3 className="stats-title text-stats">12 921</h3>
+										<h4 className="stats-desc text-stats">recuperados</h4>
+									</div>
+								</div>
+
+								<div className="donut-scale-text-container">
+									<div>
+										<img className="donut-scale-dot" src={RedDot} />
+									</div>
+									<div className="donut-scale-stats">
+										<h3 className="stats-title text-stats">5 546</h3>
+										<h4 className="stats-desc text-stats">mortos</h4>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div className="bookmark-container">
+
+							<div className="bookmark">
+								<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
+								<h1 className="bookmark-title text-stats">Portugal</h1>
+								<div className="bookmark-stats-container">
+									<div className="bookmark-stats">
+										<h1 className="stats-title text-stats">10</h1>
+										<h1 className="stats-desc text-stats">casos</h1>
+									</div>
+									<div className="bookmark-stats">
+										<h1 className="stats-title text-stats">5</h1>
+										<h1 className="stats-desc text-stats">recuperados</h1>
+									</div>
+									<div className="bookmark-stats">
+										<h1 className="stats-title text-stats">12</h1>
+										<h1 className="stats-desc text-stats">mortos</h1>
+									</div>
+								</div>
+							</div>
+
+							<div className="bookmark">
+								<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
+								<h1 className="bookmark-title text-stats">Portugal</h1>
+								<div className="bookmark-stats-container">
+									<div className="bookmark-stats">
+										<h1 className="stats-title text-stats">10</h1>
+										<h1 className="stats-desc text-stats">casos</h1>
+									</div>
+									<div className="bookmark-stats">
+										<h1 className="stats-title text-stats">5</h1>
+										<h1 className="stats-desc text-stats">recuperados</h1>
+									</div>
+									<div className="bookmark-stats">
+										<h1 className="stats-title text-stats">12</h1>
+										<h1 className="stats-desc text-stats">mortos</h1>
+									</div>
+								</div>
+							</div>
 
 						</div>
-					</PopUpDialog>
 
-					<div className="bookmark-add"><img onClick={this.handleAddBookmark} className="bookmark-add-icon" src={AddIcon} /></div>
-				</div>
+						<PopUpDialog visible={this.state.visible} handleCloseBookmark={this.handleCloseBookmark}>
+							<div className="search-container">
+								<form className="search-form">
+									<input autofocus id="search" className="search-input" type="text" placeholder="Qual o país que procura?"
+										name="search"></input>
+								</form>
+							</div>
 
-			</Page >
+							<div className="country-container">
+								{Object.values(placeholderItem).map(function (element, index) {
+									return (
+										<div className="country">
+											<img className="country-flag" src="https://lh3.googleusercontent.com/proxy/iJ01fO11ZubDU1n4Uez9-GcIVDvza1gH9zylyUl8IFTPIJjJMBdTGGaKzAVq1nxdz-5gNis4leoLTLbZ6Hug5E0Z1uNq"></img>
+											<div className="country-name">
+												{element.name} , {index}
+											</div>
+										</div>
+									);
+								})}
+
+							</div>
+						</PopUpDialog>
+
+						<div className="bookmark-add"><img onClick={this.handleAddBookmark} className="bookmark-add-icon" src={AddIcon} /></div>
+					</div>
+				</Swipeable>
+			</Page>
 		);
 	}
 

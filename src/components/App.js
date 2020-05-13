@@ -13,7 +13,7 @@ const renderPage = (route, navigator) => (
 const App = () => (
   <Navigator
     renderPage={renderPage}
-    initialRoute={{ component: MainPage, key: 'MAIN_PAGE' }}
+    initialRoute={{ component: MainPage, key: 'WORLD_MAP_PAGE' }}
     swipeable
     animation="slide"
     animationOptions={{ duration: 1, timing: 'ease' }}
