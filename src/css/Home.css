@@ -6,13 +6,13 @@
 
 .dead {
     color: red !important;
-    width: 60% !important;
+    width: 20% !important;
     margin: auto !important;
 }
 
 .recovered {
     color: lime !important;
-    width: 80% !important;
+    width: 65% !important;
     margin: auto !important;
 }
 
@@ -30,12 +30,16 @@
 }
 
 .progress-circular__secondary {
-    opacity: 0.35;
+    opacity: 0.2;
+}
+
+svg:not(:root) {
+    overflow: visible;
 }
 
 .progress-circular__primary, .progress-circular__secondary {
     stroke: currentColor !important;
-    stroke-width: 5%;
+    stroke-width: 8%;
 }
 
 ons-progress-circular {

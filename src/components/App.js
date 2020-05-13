@@ -4,7 +4,7 @@ import {
   Navigator
 } from 'react-onsenui';
 
-import MainPage from './MainPage';
+import MainPage from './WorldMapPage';
 
 const renderPage = (route, navigator) => (
   <route.component key={route.key} navigator={navigator} />
@@ -13,7 +13,10 @@ const renderPage = (route, navigator) => (
 const App = () => (
   <Navigator
     renderPage={renderPage}
-    initialRoute={{component: MainPage, key: 'MAIN_PAGE'}}
+    initialRoute={{ component: MainPage, key: 'MAIN_PAGE' }}
+    swipeable
+    animation="slide"
+    animationOptions={{ duration: 1, timing: 'ease' }}
   />
 );
 
