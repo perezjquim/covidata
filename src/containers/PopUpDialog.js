@@ -19,6 +19,7 @@ class PopUpDialog extends Component {
 
         return (
             <Dialog
+                className="home-page-dialog"
                 onCancel={this.handleCancel}
                 isOpen={visible}
                 style={{ height: "100vh" }}

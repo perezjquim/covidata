@@ -5,19 +5,21 @@ import {
     Page
 } from 'react-onsenui';
 
+import '../css/Indications.css';
+
 import NavBar from './NavBar';
 import News from './News';
+import Title from '../containers/Title';
 
 const Indications = ({ navigator }) => (
-    <Page className="background" renderBottomToolbar={() => <NavBar title='Onsen Weather' navigator={navigator} />}>
-        {console.log(navigator)}
-        <div>
-            <Swipeable
-                style={{ border: "1px solid red", width: "50vh", height: "99vh" }}
-                onSwipedRight={() => navigator.pushPage({ component: News, key: 'NEWS_PAGE' })}>
-                <h1>Indications</h1>
-            </Swipeable>
-        </div>
+    <Page className="background indications-page-container" renderBottomToolbar={() => <NavBar navigator={navigator} />}>
+        <Swipeable
+            style={{ width: "100%", height: "100%" }}
+            onSwipedRight={() => navigator.pushPage({ component: News, key: 'NEWS_PAGE' })}>
+            <div className="page-container" >
+                <Title title="indications" />
+            </div>
+        </Swipeable>
     </Page>
 );
 

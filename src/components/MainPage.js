@@ -17,6 +17,7 @@ import GreenDot from '../icons/dot-green.svg';
 
 import NavBar from './NavBar';
 import PopUpDialog from '../containers/PopUpDialog';
+import Title from '../containers/Title';
 
 // >>> amcharts helper
 import amChartsHelper from '../util/amCharts';
@@ -91,13 +92,10 @@ class MainPage extends React.Component {
 		let { navigator } = this.props;
 
 		return (
-			<Page className="background" renderBottomToolbar={() => <NavBar title='Onsen Weather' navigator={navigator} />}>
+			<Page className="background home-page-container" renderBottomToolbar={() => <NavBar navigator={navigator} />}>
 				<Swipeable style={{ width: "50vh", height: "99vh" }} onSwipedLeft={() => navigator.pushPage({ component: WorldMapPage, key: 'WORLD_MAP_PAGE' })} >
 					<div className="page-container" >
-						<div className="title">
-							<h1 className="title-main">COVID</h1>
-							<span className="title-secondary">ata</span>
-						</div>
+						<Title title="ata" />
 
 						<div className="donut-scale-container">
 							<div className="donut-scale-graph">
@@ -189,11 +187,11 @@ class MainPage extends React.Component {
 								</form>
 							</div>
 
-							<div className="country-container">
+							<div className="country-container" style={{ height: "80vh" }}>
 								{Object.values(placeholderItem).map(function (element, index) {
 									return (
 										<div className="country">
-											<img className="country-flag" src="https://lh3.googleusercontent.com/proxy/iJ01fO11ZubDU1n4Uez9-GcIVDvza1gH9zylyUl8IFTPIJjJMBdTGGaKzAVq1nxdz-5gNis4leoLTLbZ6Hug5E0Z1uNq"></img>
+											<img className="country-flag" src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"></img>
 											<div className="country-name">
 												{element.name} , {index}
 											</div>

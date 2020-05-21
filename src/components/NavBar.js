@@ -15,7 +15,6 @@ const NavApp = ({ navigator }) => (
       <img src={DotGray} />
       <img src={DotWhite} />
       <img src={DotGray} />
-      {navigator && <h4>teste</h4>}
     </div>
   </Toolbar>
 );

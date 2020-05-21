@@ -1,22 +1,22 @@
-.infected {
+.home-page-container .infected {
     color: yellow !important;
     width: 100% !important;
     margin: auto;
 }
 
-.dead {
+.home-page-container .dead {
     color: red !important;
     width: 20% !important;
     margin: auto !important;
 }
 
-.recovered {
+.home-page-container .recovered {
     color: lime !important;
     width: 65% !important;
     margin: auto !important;
 }
 
-.graph-circle {
+.home-page-container .graph-circle {
     position: absolute;
     top: 0px;
     left: 0px;
@@ -25,90 +25,75 @@
     z-index: 100;
 }
 
-.page-container {
+.home-page-container .page-container {
     margin: auto 15px;
 }
 
-.progress-circular__secondary {
+.home-page-container .progress-circular__secondary {
     opacity: 0.2;
 }
 
-svg:not(:root) {
+.home-page-container svg:not(:root) {
     overflow: visible;
 }
 
-.progress-circular__primary, .progress-circular__secondary {
+.home-page-container .progress-circular__primary, .progress-circular__secondary {
     stroke: currentColor !important;
     stroke-width: 8%;
 }
 
-ons-progress-circular {
+.home-page-container ons-progress-circular {
     height: auto !important;
 }
 
-.title {
-    margin: 7% 0;
-}
-
-.title-main {
-    display: inline;
-    color: white;
-}
-
-.title-secondary {
-    display: inline;
-    color: rgb(244, 121, 255);
-    font-size: 1.8em;
-}
-
-.donut-scale-container {
+.home-page-container .donut-scale-container {
     display: flex;
     justify-content: space-between;
 }
 
-.donut-scale-graph {
+.home-page-container .donut-scale-graph {
     position: relative;
     width: 60%;
 }
 
-.donut-scale-stats-container {
+.home-page-container .donut-scale-stats-container {
     width: 40%;
 }
 
-.donut-scale-stats {
+.home-page-container .donut-scale-stats {
     margin: 5px 0;
 }
 
-.donut-scale-text-container {
+.home-page-container .donut-scale-text-container {
     display: flex;
     align-items: center;
 }
 
-.donut-scale-dot {
+.home-page-container .donut-scale-dot {
     width: 15px;
     height: auto;
 }
 
-.text-stats {
+.home-page-container .text-stats {
     margin: 0 0;
     color: white;
 }
 
-.stats-title {
+.home-page-container .stats-title {
     font-weight: bolder;
     font-family: 'Noto Sans TC', sans-serif !important;
     font-size: 1.4em;
 }
 
-.stats-desc {
+.home-page-container .stats-desc {
     font-size: .7em;
 }
 
-.bookmark-container {
+.home-page-container .bookmark-container {
     margin: 40px 10px;
 }
 
-.bookmark {
+.home-page-container .bookmark {
     background-color: rgba(255, 255, 255, 0.22);
     padding: 6px;
     border-radius: 24px;
@@ -116,7 +101,7 @@ ons-progress-circular {
     position: relative;
 }
 
-.bookmark-delete {
+.home-page-container .bookmark-delete {
     position: absolute;
     top: 5px;
     right: 20px;
@@ -124,7 +109,7 @@ ons-progress-circular {
     height: auto;
 }
 
-.bookmark-add {
+.home-page-container .bookmark-add {
     position: fixed;
     bottom: 10%;
     left: 50%;
@@ -133,22 +118,22 @@ ons-progress-circular {
     height: auto;
 }
 
-.bookmark-add-icon {
+.home-page-container .bookmark-add-icon {
     width: 100%;
     height: auto;
 }
 
-.bookmark-stats-container {
+.home-page-container .bookmark-stats-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
 }
 
-.bookmark-stats {
+.home-page-container .bookmark-stats {
     text-align: center;
 }
 
-.bookmark-title {
+.home-page-container .bookmark-title {
     text-align: center;
     font-size: 1.2em;
     margin-bottom: 2%;
