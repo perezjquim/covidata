@@ -8,13 +8,13 @@ import {
   Toolbar
 } from 'react-onsenui';
 
-const NavApp = ({ navigator }) => (
+const NavApp = ({ navigator, currentPage }) => (
   <Toolbar className="toolbar-container" modifier="transparent">
     <div className="center">
-      <img src={DotGray} />
-      <img src={DotGray} />
-      <img src={DotWhite} />
-      <img src={DotGray} />
+      {currentPage.order === 1 ? <img src={DotWhite} /> : <img src={DotGray} />}
+      {currentPage.order === 2 ? <img src={DotWhite} /> : <img src={DotGray} />}
+      {currentPage.order === 3 ? <img src={DotWhite} /> : <img src={DotGray} />}
+      {currentPage.order === 4 ? <img src={DotWhite} /> : <img src={DotGray} />}
     </div>
   </Toolbar>
 );

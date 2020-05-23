@@ -89,11 +89,19 @@ class MainPage extends React.Component {
 			29: { name: "Afghanistan" },
 		};
 
-		let { navigator } = this.props;
+		let { navigator, currentPage } = this.props;
 
 		return (
-			<Page className="background home-page-container" renderBottomToolbar={() => <NavBar navigator={navigator} />}>
-				<Swipeable style={{ width: "50vh", height: "99vh" }} onSwipedLeft={() => navigator.pushPage({ component: WorldMapPage, key: 'WORLD_MAP_PAGE' })} >
+			<Page className="background home-page-container"
+				renderBottomToolbar={() => <NavBar
+					navigator={navigator}
+					currentPage={currentPage} />
+				}
+			>
+				<Swipeable
+					style={{ width: "100%", height: "100%" }}
+					onSwipedLeft={() => navigator.pushPage({ component: WorldMapPage, key: this.props.nextPage })}
+				>
 					<div className="page-container" >
 						<Title title="ata" />
 
@@ -207,14 +215,6 @@ class MainPage extends React.Component {
 				</Swipeable>
 			</Page>
 		);
-	}
-
-	componentDidMount() {
-		amChartsHelper.renderMap("amcharts-test");
-	}
-
-	componentWillUnmount() {
-		amChartsHelper.onDispose("amcharts-test");
 	}
 }
 
