@@ -3,3 +3,7 @@
     background: linear-gradient(180deg, rgb(102, 130, 206) 0%, rgb(223, 177, 250) 100%) !important;
     font-family: 'Noto Sans JP', sans-serif !important;
 }
+
+.page-container {
+    margin: auto 15px;
+}
