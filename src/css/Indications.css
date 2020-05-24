@@ -1,3 +1,38 @@
 .indications-page-container .page-container {
     margin: auto 15px;
 }
+
+.indications-page-container .list__item {
+    background-color: transparent !important
+}
+
+.indications-page-container .page-container .center {
+    display: block !important;
+    margin: 0 !important;
+}
+
+.indications-page-container .indication {
+    color: white;
+    margin: 5% auto;
+}
+
+.indications-page-container .indication-title {
+    font-weight: bold;
+    font-size: 1.2em;
+    position: relative;
+}
+
+.indications-page-container .indication-icon {
+    position: absolute;
+    width: 15px;
+    height: auto;
+    right: 10px;
+    top: 0;
+}
+
+.indications-page-container .indication-content {
+    padding-left: 5%;
+    display: none;
+    font-size: .8em;
+    margin-top: 3%;
+}

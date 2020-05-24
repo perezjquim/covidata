@@ -1,6 +1,5 @@
 .page--material__background {
-    background: rgb(92, 132, 191) !important;
-    background: linear-gradient(180deg, rgb(102, 130, 206) 0%, rgb(223, 177, 250) 100%) !important;
+    background: linear-gradient(180deg, rgba(63, 94, 251, 1) 0%, rgba(252, 70, 107, 1) 100%) !important;
     font-family: 'Noto Sans JP', sans-serif !important;
 }
 

@@ -8,6 +8,7 @@
     margin: 8% auto;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .news-page-container .news-img {
@@ -22,6 +23,7 @@
 .news-page-container .news-text {
     width: -webkit-fill-available;
     margin-left: 5%;
+    color: white !important;
 }
 
 .news-page-container .news-img img {
@@ -48,5 +50,5 @@
 
 .news-page-container .news-date {
     font-size: .8em;
-    color: rgba(0, 0, 0, 0.8);
+    color: rgba(255, 255, 255, 0.8);
 }
