@@ -61,7 +61,7 @@ class News extends React.Component {
                     style={{ width: "100%", height: "100%" }}
                     onSwipedRight={() => navigator.popPage()}
 
-                    onSwipedLeft={() => navigator.pushPage({ component: Indications, key: this.props.nextPage })}>
+                    onSwipedLeft={() => navigator.pushPage({ component: Indications, key: this.props.pages[3].name })}>
                     <div className="page-container" >
                         <Title title="news" />
                         <div className="news-container" >

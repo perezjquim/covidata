@@ -13,21 +13,11 @@ const renderPage = (route, navigator) => (
     navigator={navigator}
     pages={pages}
     currentPage={currentPage(route.key)}
-    nextPage={nextPage(route.key)}
   />
 );
 
 const currentPage = (key) => {
   return pages.find(element => element.name === key);
-};
-
-const nextPage = (key) => {
-  let currentPage = pages.find(element => element.name === key);
-
-  if (currentPage.name !== "INDICATIONS_PAGE") {
-    let nextPage = pages.find(element => element.order === currentPage.order + 1);
-    return nextPage.name;
-  }
 };
 
 const App = () => (

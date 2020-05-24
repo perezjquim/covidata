@@ -29,7 +29,7 @@ class WorldMapPage extends React.Component {
     });
   }
   handleSwipeLeft() {
-    this.props.navigator.pushPage({ component: News, key: this.props.nextPage });
+    this.props.navigator.pushPage({ component: News, key: this.props.pages[2].name });
     this.setState({
       visible: false,
     });

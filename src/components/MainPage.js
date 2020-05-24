@@ -22,6 +22,7 @@ import Title from '../containers/Title';
 // >>> amcharts helper
 import amChartsHelper from '../util/amCharts';
 import WorldMapPage from './WorldMapPage';
+import CountryPage from './CountryPage';
 // <<< amcharts helper
 
 class MainPage extends React.Component {
@@ -36,7 +37,7 @@ class MainPage extends React.Component {
 	}
 
 	handleDeleteBookmark(e) {
-		console.log("Bookmark deleted: " + e);
+		alert("Bookmark deleted: " + e);
 	}
 
 	handleAddBookmark() {
@@ -89,6 +90,11 @@ class MainPage extends React.Component {
 			29: { name: "Afghanistan" },
 		};
 
+		const placeholderBookmark = {
+			0: { name: "Afghanistan", cases: "10", recovered: "5", deaths: "12" },
+			1: { name: "Afghanistan", cases: "10", recovered: "5", deaths: "12" },
+		};
+
 		let { navigator, currentPage } = this.props;
 
 		return (
@@ -100,7 +106,7 @@ class MainPage extends React.Component {
 			>
 				<Swipeable
 					style={{ width: "100%", height: "100%" }}
-					onSwipedLeft={() => navigator.pushPage({ component: WorldMapPage, key: this.props.nextPage })}
+					onSwipedLeft={() => navigator.pushPage({ component: WorldMapPage, key: this.props.pages[1].name })}
 				>
 					<div className="page-container" >
 						<Title title="ata" />
@@ -147,43 +153,31 @@ class MainPage extends React.Component {
 
 						<div className="bookmark-container">
 
-							<div className="bookmark">
-								<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
-								<h1 className="bookmark-title text-stats">Portugal</h1>
-								<div className="bookmark-stats-container">
-									<div className="bookmark-stats">
-										<h1 className="stats-title text-stats">10</h1>
-										<h1 className="stats-desc text-stats">casos</h1>
-									</div>
-									<div className="bookmark-stats">
-										<h1 className="stats-title text-stats">5</h1>
-										<h1 className="stats-desc text-stats">recuperados</h1>
-									</div>
-									<div className="bookmark-stats">
-										<h1 className="stats-title text-stats">12</h1>
-										<h1 className="stats-desc text-stats">mortos</h1>
-									</div>
-								</div>
-							</div>
+							{Object.values(placeholderBookmark).map((element) => {
+								return (
+									<div className="bookmark" >
+										<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
+										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE" })}>
+											<h1 className="bookmark-title text-stats">{element.name}</h1>
+											<div className="bookmark-stats-container">
+												<div className="bookmark-stats">
+													<h1 className="stats-title text-stats">{element.cases}</h1>
+													<h1 className="stats-desc text-stats">casos</h1>
+												</div>
+												<div className="bookmark-stats">
+													<h1 className="stats-title text-stats">{element.recovered}</h1>
+													<h1 className="stats-desc text-stats">recuperados</h1>
+												</div>
+												<div className="bookmark-stats">
+													<h1 className="stats-title text-stats">{element.deaths}</h1>
+													<h1 className="stats-desc text-stats">mortos</h1>
+												</div>
+											</div>
+										</div>
 
-							<div className="bookmark">
-								<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
-								<h1 className="bookmark-title text-stats">Portugal</h1>
-								<div className="bookmark-stats-container">
-									<div className="bookmark-stats">
-										<h1 className="stats-title text-stats">10</h1>
-										<h1 className="stats-desc text-stats">casos</h1>
 									</div>
-									<div className="bookmark-stats">
-										<h1 className="stats-title text-stats">5</h1>
-										<h1 className="stats-desc text-stats">recuperados</h1>
-									</div>
-									<div className="bookmark-stats">
-										<h1 className="stats-title text-stats">12</h1>
-										<h1 className="stats-desc text-stats">mortos</h1>
-									</div>
-								</div>
-							</div>
+								);
+							})}
 
 						</div>
 
