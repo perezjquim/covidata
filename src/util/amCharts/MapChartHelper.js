@@ -93,7 +93,7 @@ export default class MapChartHelper
                 aMapChart.zoomControl = new am4maps.ZoomControl();
                 aMapChart.projection = new am4maps.projections.Miller();
 
-                const oHomeButton = new am4core.Button();
+                /* const oHomeButton = new am4core.Button();
                 oHomeButton.events.on("hit", () => this.onHomeSelected(aMapChart));
                 oHomeButton.icon = new am4core.Sprite();
                 oHomeButton.padding(7, 5, 7, 5);
@@ -101,7 +101,7 @@ export default class MapChartHelper
                 oHomeButton.icon.path = "M16,8 L14,8 L14,16 L10,16 L10,10 L6,10 L6,16 L2,16 L2,8 L0,8 L8,0 L16,8 Z M16,8";
                 oHomeButton.marginBottom = 10;
                 oHomeButton.parent = aMapChart.zoomControl;
-                oHomeButton.insertBefore(aMapChart.zoomControl.plusButton);
+                oHomeButton.insertBefore(aMapChart.zoomControl.plusButton); */
         }
         static _prepareWorldView(aMapChart)
         {
