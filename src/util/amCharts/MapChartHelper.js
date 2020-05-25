@@ -27,7 +27,7 @@ export default class MapChartHelper
         	const oCountryPolygon = oWorldSeries.getPolygonById(aCountryId);
         	// >>> disparar evento != hit (para fazer disable ao click mas manter possível navegação)
                 // oCountryPolygon.dispatch("hit", oCountryPolygon);
-                oCountryPolygon.dispatch("onCountrySelected", oCountryPolygon);
+                oCountryPolygon.dispatch("onCountryDetail", oCountryPolygon);
                 // <<< disparar evento != hit (para fazer disable ao click mas manter possível navegação)
         }
         static onHomeSelected(aMapChart)
@@ -35,35 +35,47 @@ export default class MapChartHelper
                 this._setWorldVisibility(aMapChart, true);
                 aMapChart.goHome();
         }
-        static onCountrySelected(aEvent)
+        static onCountrySelected(aEvent, bDrilldownToCountryView)
         {
-                this._zoomIn(aEvent);
-                const oTarget = aEvent.target;
-                const sCountryId = oTarget.dataItem.dataContext.id;
-                const oCountryConfig = MAP_GEODATA_CONFIG_COUNTRIES[sCountryId];
-                const sMapName = oCountryConfig && oCountryConfig[0];
-                if (sMapName)
+                if (bDrilldownToCountryView)
                 {
-                        oTarget.isHover = false;
-                        const oMapChart = oTarget.series.chart;
-                        const oCountrySeries = this._findSeries(oMapChart, MAP_SERIES_ID_COUNTRY);
-                        if (oCountrySeries)
+                        // navegar para a visão do país
+                        this._zoomIn(aEvent);
+                        const oTarget = aEvent.target;
+                        const sCountryId = oTarget.dataItem.dataContext.id;
+                        const oCountryConfig = MAP_GEODATA_CONFIG_COUNTRIES[sCountryId];
+                        const sMapName = oCountryConfig && oCountryConfig[0];
+                        if (sMapName)
                         {
-                                oCountrySeries.geodataSource.events.once("done", () => this.onCountryGeodataFetched(oMapChart, sCountryId));
-                                oCountrySeries.geodataSource.url = `${MAP_GEODATA_BASE_URL}/${sMapName}.json`;
-                                oCountrySeries.geodataSource.load();
-                                oMapChart.sSelectedCountry = sCountryId;
-                                oMapChart.dispatch("onCountrySelected");
+                                oTarget.isHover = false;
+                                const oMapChart = oTarget.series.chart;
+                                const oCountrySeries = this._findSeries(oMapChart, MAP_SERIES_ID_COUNTRY);
+                                if (oCountrySeries)
+                                {
+                                        oCountrySeries.geodataSource.events.once("done", () => this.onCountryGeodataFetched(oMapChart, sCountryId));
+                                        oCountrySeries.geodataSource.url = `${MAP_GEODATA_BASE_URL}/${sMapName}.json`;
+                                        oCountrySeries.geodataSource.load();
+                                        oMapChart.sSelectedCountry = sCountryId;
+                                }
+                                else
+                                {
+                                        this._log(LOG_MESSAGE_TEMPLATES["COUNTRY_SERIES_NOT_FOUND"]);
+                                }
                         }
                         else
                         {
-                                this._log(LOG_MESSAGE_TEMPLATES["COUNTRY_SERIES_NOT_FOUND"]);
+                                this._log(LOG_MESSAGE_TEMPLATES["UNKNOWN_MAP"]);
                         }
                 }
                 else
                 {
-                        this._log(LOG_MESSAGE_TEMPLATES["UNKNOWN_MAP"]);
-                }               
+                        // mero click no país
+                        const oTarget = aEvent.target;                       
+                        const sCountryId = oTarget.dataItem.dataContext.id;
+                        const oMapChart = oTarget.series.chart; 
+                        oMapChart.sSelectedCountry = sCountryId;
+                        oMapChart.dispatch("onCountrySelected");
+                }        
         }
         static onCountryGeodataFetched(aMapChart, aCountryId)
         {
@@ -129,7 +141,8 @@ export default class MapChartHelper
                 const oWorldPolygon = oWorldSeries.mapPolygons.template;
                 // >>> disparar evento != hit (para fazer disable ao click mas manter possível navegação)
                 // oWorldPolygon.events.on("hit", this.onCountrySelected.bind(this));
-                oWorldPolygon.events.on("onCountrySelected", this.onCountrySelected.bind(this));
+                oWorldPolygon.events.on("hit", (aEvent) => this.onCountrySelected(aEvent, false));
+                oWorldPolygon.events.on("onCountryDetail", (aEvent) => this.onCountrySelected(aEvent, true));
                 // <<< disparar evento != hit (para fazer disable ao click mas manter possível navegação)
 
                 this._prepareSeriesPolygons(aMapChart, oWorldPolygon);
