@@ -25,7 +25,10 @@ export default class MapChartHelper
         {
         	const oWorldSeries = this._findSeries(aMapChart, MAP_SERIES_ID_WORLD);
         	const oCountryPolygon = oWorldSeries.getPolygonById(aCountryId);
-        	oCountryPolygon.dispatch("hit", oCountryPolygon);
+        	// >>> disparar evento != hit (para fazer disable ao click mas manter possível navegação)
+                // oCountryPolygon.dispatch("hit", oCountryPolygon);
+                oCountryPolygon.dispatch("onCountrySelected", oCountryPolygon);
+                // <<< disparar evento != hit (para fazer disable ao click mas manter possível navegação)
         }
         static onHomeSelected(aMapChart)
         {
@@ -124,7 +127,10 @@ export default class MapChartHelper
                 oWorldSeries.events.once("ready", (aEvent) => aMapChart.dispatch("onReady"));
 
                 const oWorldPolygon = oWorldSeries.mapPolygons.template;
-                oWorldPolygon.events.on("hit", this.onCountrySelected.bind(this));
+                // >>> disparar evento != hit (para fazer disable ao click mas manter possível navegação)
+                // oWorldPolygon.events.on("hit", this.onCountrySelected.bind(this));
+                oWorldPolygon.events.on("onCountrySelected", this.onCountrySelected.bind(this));
+                // <<< disparar evento != hit (para fazer disable ao click mas manter possível navegação)
 
                 this._prepareSeriesPolygons(aMapChart, oWorldPolygon);
         }
