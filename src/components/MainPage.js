@@ -159,7 +159,7 @@ class MainPage extends React.Component
 								return (
 									<div className="bookmark" >
 										<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
-										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE" })}>
+										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: "PT" })}>
 											<h1 className="bookmark-title text-stats">{element.name}</h1>
 											<div className="bookmark-stats-container">
 												<div className="bookmark-stats">

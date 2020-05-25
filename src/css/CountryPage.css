@@ -9,6 +9,13 @@
     /*background-color: red;*/
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+}
+
+.country-page-container .graph-container>div {
+    flex: 1;
 }
 
 .country-page-container .back-button {
