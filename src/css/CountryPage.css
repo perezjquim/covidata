@@ -51,6 +51,7 @@
 
 .country-page-container .day-container .date {
     color: white;
+    font-size: 1.3em;
 }
 
 .country-page-container .day-container .numbers {
@@ -67,14 +68,6 @@
 
 .country-page-container .day-container .stat {
     display: inline-block;
-}
-
-.country-page-container .day-container .stat:before {
-    content: "";
-    width: 25px;
-    height: 18px;
-    background-size: 25px 25px;
-    background-repeat: no-repeat;
-    display: inline-block;
-    background-image: url("https://cdn.iconscout.com/icon/premium/png-256-thumb/stats-27-370809.png");
+    font-size: 1.2em;
+    font-weight: bold;
 }

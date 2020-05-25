@@ -13,8 +13,8 @@ const NavApp = ({ navigator, currentPage }) => (
     <div className="center">
       {currentPage.order === 1 ? <img src={DotWhite} /> : <img src={DotGray} />}
       {currentPage.order === 2 ? <img src={DotWhite} /> : <img src={DotGray} />}
-      {currentPage.order === 3 ? <img src={DotWhite} /> : <img src={DotGray} />}
       {currentPage.order === 4 ? <img src={DotWhite} /> : <img src={DotGray} />}
+      {currentPage.order === 3 ? <img src={DotWhite} /> : <img src={DotGray} />}
     </div>
   </Toolbar>
 );
