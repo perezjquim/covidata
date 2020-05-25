@@ -15,22 +15,16 @@ import amChartsHelper from '../util/amCharts';
 class CountryPage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            loading: false
-        };
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         var content = document.getElementById("am-charts-graph");
+
         const oMapChart = amChartsHelper.renderMap("am-charts-graph");
 
         oMapChart.events.on("onReady", (aEvent) => {
             amChartsHelper.toCountryView(oMapChart, this.props.country);
             content.style.visibility = "visible";
-        });
-
-        this.setState({
-            loading: false
         });
     }
 
@@ -45,7 +39,6 @@ class CountryPage extends React.Component {
         };
 
         let { navigator } = this.props;
-        let { loading } = this.state;
 
         return (
             <Page className="background country-page-container">
@@ -56,10 +49,7 @@ class CountryPage extends React.Component {
                     <img src={BackButton} />
                 </div>
                 <div className="container" >
-                    {loading
-                        ? <div className="graph-container" ></div>
-                        : <div className="graph-container" id="am-charts-graph"></div>
-                    }
+                    <div className="graph-container" id="am-charts-graph"></div>
                     <div className="timeline-container">
                         {Object.values(placeholderItem).map((element) => {
                             return (
