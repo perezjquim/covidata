@@ -19,25 +19,23 @@ import CountryPage from './CountryPage';
 
 class WorldMapPage extends React.Component {
 
-    // >>>
-    componentDidMount()
-    {
-          const oMapChart = amChartsHelper.renderMap("am-charts-world-map");
-          oMapChart.events.on("onCountrySelected", (aEvent) =>
-          {
-              const sCountryId = aEvent.target.sSelectedCountry;
-              console.log(`onCountrySelected - ${sCountryId}`);
-              // nav
-              navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE" });
-              // todo - params
-           });
-    }
-    // <<<
+  // >>>
+  componentDidMount() {
+    const oMapChart = amChartsHelper.renderMap("am-charts-world-map");
+    oMapChart.events.on("onCountrySelected", (aEvent) => {
+      const sCountryId = aEvent.target.sSelectedCountry;
+      console.log(`onCountrySelected - ${sCountryId}`);
+      // nav
+      this.props.navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: sCountryId });
+      // todo - params
+    });
+  }
+  // <<<
 
   constructor(props) {
     super(props);
     this.state = {
-      visible: true
+      visible: false
     };
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
     this.handleSwipeDown = this.handleSwipeDown.bind(this);
@@ -110,7 +108,7 @@ class WorldMapPage extends React.Component {
     };
 
     let { navigator, currentPage } = this.props;
-    
+
     return (
       <Page className="background world-map-page-container"
         renderBottomToolbar={() => <NavBar

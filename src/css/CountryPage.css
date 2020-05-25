@@ -23,6 +23,7 @@
     padding: 5px;
     width: 40px;
     height: 40px;
+    z-index: 99999999;
 }
 
 .country-page-container .back-button img {

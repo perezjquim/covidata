@@ -13,6 +13,7 @@ const renderPage = (route, navigator) => (
     navigator={navigator}
     pages={pages}
     currentPage={currentPage(route.key)}
+    country={route.country}
   />
 );
 

@@ -15,14 +15,12 @@ import amChartsHelper from '../util/amCharts';
 class CountryPage extends React.Component {
 
     // >>>
-    componentDidMount()
-    {
-          const oMapChart = amChartsHelper.renderMap("am-charts-graph");
+    componentDidMount() {
+        const oMapChart = amChartsHelper.renderMap("am-charts-graph");
 
-          oMapChart.events.on("onReady", (aEvent) =>
-          {
-                amChartsHelper.toCountryView(oMapChart, 'PT');
-          });
+        oMapChart.events.on("onReady", (aEvent) => {
+            amChartsHelper.toCountryView(oMapChart, this.props.country);
+        });
     }
     // <<<
 
