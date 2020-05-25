@@ -25,16 +25,15 @@ import WorldMapPage from './WorldMapPage';
 import CountryPage from './CountryPage';
 // <<< amcharts helper
 
-class MainPage extends React.Component
-{
-	constructor(props) 
-	{
+class MainPage extends React.Component {
+	constructor(props) {
 		super(props);
 		this.state = {
 			visible: false
 		};
 		this.handleDeleteBookmark = this.handleDeleteBookmark.bind(this);
 		this.handleAddBookmark = this.handleAddBookmark.bind(this);
+		this.handleAddBookmarkButton = this.handleAddBookmarkButton.bind(this);
 		this.handleCloseBookmark = this.handleCloseBookmark.bind(this);
 	}
 
@@ -42,7 +41,19 @@ class MainPage extends React.Component
 		alert("Bookmark deleted: " + e);
 	}
 
-	handleAddBookmark() {
+	handleAddBookmark(code) {
+		var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+		var newBookmarks = [];
+
+		if (bookmarks) newBookmarks = bookmarks;
+
+		newBookmarks.push(code);
+		localStorage.setItem("bookmarks", JSON.stringify(newBookmarks));
+
+		this.handleCloseBookmark();
+	}
+
+	handleAddBookmarkButton() {
 		console.log("Bookmark added");
 		this.setState({
 			visible: true
@@ -58,38 +69,42 @@ class MainPage extends React.Component
 		document.getElementById('search').value = '';
 	}
 
+	handleSearch(placeholderItem) {
+		var input, filter, i, country;
+		input = document.getElementById("search");
+		filter = input.value.toUpperCase();
+		country = document.getElementsByClassName("country");
+
+		Object.values(placeholderItem).map(function (element, index) {
+			console.log(element);
+			if (element.name.toUpperCase().indexOf(filter) > -1) {
+				console.log("block");
+				country[index].style.display = "flex";
+				console.log(country[index]);
+			} else {
+				console.log("none");
+				country[index].style.display = "none";
+				console.log(country[index]);
+			}
+		});
+	}
+
 	render() {
 		const placeholderItem = {
-			0: { name: "Afghanistan" },
-			1: { name: "Afghanistan" },
-			2: { name: "Afghanistan" },
-			3: { name: "Afghanistan" },
-			4: { name: "Afghanistan" },
-			5: { name: "Afghanistan" },
-			6: { name: "Afghanistan" },
-			7: { name: "Afghanistan" },
-			8: { name: "Afghanistan" },
-			9: { name: "Afghanistan" },
-			10: { name: "Afghanistan" },
-			11: { name: "Afghanistan" },
-			12: { name: "Afghanistan" },
-			13: { name: "Afghanistan" },
-			14: { name: "Afghanistan" },
-			15: { name: "Afghanistan" },
-			16: { name: "Afghanistan" },
-			17: { name: "Afghanistan" },
-			18: { name: "Afghanistan" },
-			19: { name: "Afghanistan" },
-			20: { name: "Afghanistan" },
-			21: { name: "Afghanistan" },
-			22: { name: "Afghanistan" },
-			23: { name: "Afghanistan" },
-			24: { name: "Afghanistan" },
-			25: { name: "Afghanistan" },
-			26: { name: "Afghanistan" },
-			27: { name: "Afghanistan" },
-			28: { name: "Afghanistan" },
-			29: { name: "Afghanistan" },
+			0: { name: "Afghanistan", code: "AF" },
+			1: { name: "Chile", code: "CL" },
+			2: { name: "Ukraine", code: "UA" },
+			3: { name: "Taiwan", code: "TW" },
+			4: { name: "Senegal", code: "SN" },
+			5: { name: "Russian Federation", code: "RU" },
+			6: { name: "Portugal", code: "PT" },
+			7: { name: "Puerto Rico", code: "PR" },
+			8: { name: "Palau", code: "PW" },
+			9: { name: "Maldives", code: "MV" },
+			10: { name: "Kiribati", code: "KI" },
+			11: { name: "Indonesia", code: "ID" },
+			12: { name: "Germany", code: "DE" },
+			13: { name: "Ecuador", code: "EC" },
 		};
 
 		const placeholderBookmark = {
@@ -185,19 +200,17 @@ class MainPage extends React.Component
 
 						<PopUpDialog visible={this.state.visible} handleCloseBookmark={this.handleCloseBookmark}>
 							<div className="search-container">
-								<form className="search-form">
-									<input autofocus id="search" className="search-input" type="text" placeholder="Qual o país que procura?"
-										name="search"></input>
-								</form>
+								<input autofocus id="search" className="search-input" type="text" placeholder="Qual o país que procura?"
+									name="search" onChange={() => this.handleSearch(placeholderItem)}></input>
 							</div>
 
 							<div className="country-container" style={{ height: "80vh" }}>
-								{Object.values(placeholderItem).map(function (element, index) {
+								{Object.values(placeholderItem).map((element, index) => {
 									return (
-										<div className="country">
+										<div className="country" onClick={() => this.handleAddBookmark(element.code)}>
 											<img className="country-flag" src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"></img>
 											<div className="country-name">
-												{element.name} , {index}
+												{element.name}
 											</div>
 										</div>
 									);
@@ -206,7 +219,7 @@ class MainPage extends React.Component
 							</div>
 						</PopUpDialog>
 
-						<div className="bookmark-add"><img onClick={this.handleAddBookmark} className="bookmark-add-icon" src={AddIcon} /></div>
+						<div className="bookmark-add"><img onClick={this.handleAddBookmarkButton} className="bookmark-add-icon" src={AddIcon} /></div>
 					</div>
 				</Swipeable>
 			</Page>
