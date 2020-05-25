@@ -30,7 +30,7 @@ class CountryPage extends React.Component {
                     <img src={BackButton} />
                 </div>
                 <div className="container" >
-                    <div className="graph-container">
+                    <div className="graph-container" id="am-charts-graph">
                     </div>
                     <div className="timeline-container">
                         {Object.values(placeholderItem).map((element) => {
