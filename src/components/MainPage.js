@@ -29,39 +29,118 @@ class MainPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			visible: false
+			visible: false,
+			bookmarks: [],
+			placeholderItem: [
+				{ name: "Afghanistan", code: "AF" },
+				{ name: "Chile", code: "CL" },
+				{ name: "Ukraine", code: "UA" },
+				{ name: "Taiwan", code: "TW" },
+				{ name: "Senegal", code: "SN" },
+				{ name: "Russian Federation", code: "RU" },
+				{ name: "Portugal", code: "PT" },
+				{ name: "Puerto Rico", code: "PR" },
+				{ name: "Palau", code: "PW" },
+				{ name: "Maldives", code: "MV" },
+				{ name: "Kiribati", code: "KI" },
+				{ name: "Indonesia", code: "ID" },
+				{ name: "Germany", code: "DE" },
+				{ name: "Ecuador", code: "EC" },
+			]
 		};
 		this.handleDeleteBookmark = this.handleDeleteBookmark.bind(this);
 		this.handleAddBookmark = this.handleAddBookmark.bind(this);
 		this.handleAddBookmarkButton = this.handleAddBookmarkButton.bind(this);
 		this.handleCloseBookmark = this.handleCloseBookmark.bind(this);
+		this.checkIfExists = this.checkIfExists.bind(this);
 	}
 
-	handleDeleteBookmark(e) {
-		alert("Bookmark deleted: " + e);
-	}
-
-	handleAddBookmark(code) {
+	componentDidMount() {
 		var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+		var placeholderItem = this.state.placeholderItem;
 		var newBookmarks = [];
 
-		if (bookmarks) newBookmarks = bookmarks;
+		bookmarks.forEach(el => {
+			Object.values(placeholderItem).map((element) => {
+				if (element.code.indexOf(el) > -1) {
+					newBookmarks.push(element);
+				}
+			});
+		});
 
-		newBookmarks.push(code);
-		localStorage.setItem("bookmarks", JSON.stringify(newBookmarks));
+		console.log(newBookmarks);
+
+		this.setState({
+			bookmarks: newBookmarks
+		});
+	}
+
+	checkIfExists(country) {
+		var bookmarks = this.state.bookmarks;
+		var exists = false;
+
+		bookmarks.forEach(element => {
+			if (element.code.indexOf(country.code) > -1) {
+				exists = true;
+			}
+		});
+
+		return exists;
+	}
+
+	handleDeleteBookmark(country) {
+		var bookmarksStorage = JSON.parse(localStorage.getItem("bookmarks"));
+		var bookmarksState = this.state.bookmarks;
+
+		bookmarksStorage.forEach((element, index) => {
+			if (element.indexOf(country.code) > -1) {
+				bookmarksStorage.splice(index, 1);
+			}
+		});
+
+		bookmarksState.forEach((el, i) => {
+			if (el.code.indexOf(country.code) > -1) {
+				bookmarksState.splice(i, 1);
+			}
+		});
+
+		localStorage.setItem("bookmarks", JSON.stringify(bookmarksStorage));
+
+		this.setState({
+			bookmarks: bookmarksState
+		});
+	}
+
+	handleAddBookmark(country) {
+		var bookmarksStorage = JSON.parse(localStorage.getItem("bookmarks"));
+		var bookmarksState = this.state.bookmarks;
+		var newBookmarksStorage = [];
+		var newBookmarksState = [];
+
+		if (bookmarksStorage) newBookmarksStorage = bookmarksStorage;
+		if (bookmarksState) newBookmarksState = bookmarksState;
+
+		if (!this.checkIfExists(country)) {
+			newBookmarksStorage.push(country.code);
+			newBookmarksState.push(country);
+		}
+
+		localStorage.setItem("bookmarks", JSON.stringify(newBookmarksStorage));
+
+		this.setState({
+			bookmarks: newBookmarksState
+		});
 
 		this.handleCloseBookmark();
 	}
 
 	handleAddBookmarkButton() {
-		console.log("Bookmark added");
 		this.setState({
 			visible: true
 		});
 	}
 
 	handleCloseBookmark() {
-		console.log("Bookmark closed");
 		this.setState({
 			visible: false
 		});
@@ -70,49 +149,23 @@ class MainPage extends React.Component {
 	}
 
 	handleSearch(placeholderItem) {
-		var input, filter, i, country;
+		var input, filter, country;
 		input = document.getElementById("search");
 		filter = input.value.toUpperCase();
 		country = document.getElementsByClassName("country");
 
 		Object.values(placeholderItem).map(function (element, index) {
-			console.log(element);
 			if (element.name.toUpperCase().indexOf(filter) > -1) {
-				console.log("block");
 				country[index].style.display = "flex";
-				console.log(country[index]);
 			} else {
-				console.log("none");
 				country[index].style.display = "none";
-				console.log(country[index]);
 			}
 		});
 	}
 
 	render() {
-		const placeholderItem = {
-			0: { name: "Afghanistan", code: "AF" },
-			1: { name: "Chile", code: "CL" },
-			2: { name: "Ukraine", code: "UA" },
-			3: { name: "Taiwan", code: "TW" },
-			4: { name: "Senegal", code: "SN" },
-			5: { name: "Russian Federation", code: "RU" },
-			6: { name: "Portugal", code: "PT" },
-			7: { name: "Puerto Rico", code: "PR" },
-			8: { name: "Palau", code: "PW" },
-			9: { name: "Maldives", code: "MV" },
-			10: { name: "Kiribati", code: "KI" },
-			11: { name: "Indonesia", code: "ID" },
-			12: { name: "Germany", code: "DE" },
-			13: { name: "Ecuador", code: "EC" },
-		};
-
-		const placeholderBookmark = {
-			0: { name: "Afghanistan", cases: "10", recovered: "5", deaths: "12" },
-			1: { name: "Afghanistan", cases: "10", recovered: "5", deaths: "12" },
-		};
-
 		let { navigator, currentPage } = this.props;
+		let { bookmarks, placeholderItem } = this.state;
 
 		return (
 			<Page className="background home-page-container"
@@ -169,24 +222,23 @@ class MainPage extends React.Component {
 						</div>
 
 						<div className="bookmark-container">
-
-							{Object.values(placeholderBookmark).map((element) => {
+							{Object.values(bookmarks).map((element) => {
 								return (
 									<div className="bookmark" >
-										<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
+										<div className="bookmark-delete"><img onClick={() => this.handleDeleteBookmark(element)} src={DeleteIcon} /></div>
 										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: "PT" })}>
 											<h1 className="bookmark-title text-stats">{element.name}</h1>
 											<div className="bookmark-stats-container">
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">{element.cases}</h1>
+													<h1 className="stats-title text-stats">512</h1>
 													<h1 className="stats-desc text-stats">casos</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">{element.recovered}</h1>
+													<h1 className="stats-title text-stats">87</h1>
 													<h1 className="stats-desc text-stats">recuperados</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">{element.deaths}</h1>
+													<h1 className="stats-title text-stats">25</h1>
 													<h1 className="stats-desc text-stats">mortos</h1>
 												</div>
 											</div>
@@ -195,7 +247,6 @@ class MainPage extends React.Component {
 									</div>
 								);
 							})}
-
 						</div>
 
 						<PopUpDialog visible={this.state.visible} handleCloseBookmark={this.handleCloseBookmark}>
@@ -205,24 +256,23 @@ class MainPage extends React.Component {
 							</div>
 
 							<div className="country-container" style={{ height: "80vh" }}>
-								{Object.values(placeholderItem).map((element, index) => {
+								{Object.values(placeholderItem).map((element) => {
 									return (
-										<div className="country" onClick={() => this.handleAddBookmark(element.code)}>
+										<div className="country" id={"country-" + element.code} onClick={() => this.handleAddBookmark(element)}>
 											<img className="country-flag" src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"></img>
 											<div className="country-name">
 												{element.name}
 											</div>
 										</div>
 									);
-								})}
-
+								})};
 							</div>
 						</PopUpDialog>
 
 						<div className="bookmark-add"><img onClick={this.handleAddBookmarkButton} className="bookmark-add-icon" src={AddIcon} /></div>
 					</div>
-				</Swipeable>
-			</Page>
+				</Swipeable >
+			</Page >
 		);
 	}
 }
