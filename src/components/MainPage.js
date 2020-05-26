@@ -251,8 +251,15 @@ class MainPage extends React.Component {
 
 						<PopUpDialog visible={this.state.visible} handleCloseBookmark={this.handleCloseBookmark}>
 							<div className="search-container">
-								<input autofocus id="search" className="search-input" type="text" placeholder="Qual o país que procura?"
-									name="search" onChange={() => this.handleSearch(placeholderItem)}></input>
+								<input
+									autofocus
+									id="search"
+									className="search-input"
+									type="text"
+									placeholder="Qual o país que procura?"
+									name="search"
+									onChange={() => this.handleSearch(placeholderItem)}>
+								</input>
 							</div>
 
 							<div className="country-container" style={{ height: "80vh" }}>

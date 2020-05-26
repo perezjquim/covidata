@@ -18,29 +18,40 @@ import amChartsHelper from '../util/amCharts';
 import CountryPage from './CountryPage';
 
 class WorldMapPage extends React.Component {
-
-  // >>>
-  componentDidMount() {
-    const oMapChart = amChartsHelper.renderMap("am-charts-world-map");
-    oMapChart.events.on("onCountrySelected", (aEvent) => {
-      const sCountryId = aEvent.target.sSelectedCountry;
-      console.log(`onCountrySelected - ${sCountryId}`);
-      // nav
-      this.props.navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: sCountryId });
-      // todo - params
-    });
-  }
-  // <<<
-
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      placeholderItem: [
+        { name: "Afghanistan", code: "AF" },
+        { name: "Chile", code: "CL" },
+        { name: "Ukraine", code: "UA" },
+        { name: "Taiwan", code: "TW" },
+        { name: "Senegal", code: "SN" },
+        { name: "Russian Federation", code: "RU" },
+        { name: "Portugal", code: "PT" },
+        { name: "Puerto Rico", code: "PR" },
+        { name: "Palau", code: "PW" },
+        { name: "Maldives", code: "MV" },
+        { name: "Kiribati", code: "KI" },
+        { name: "Indonesia", code: "ID" },
+        { name: "Germany", code: "DE" },
+        { name: "Ecuador", code: "EC" },
+      ]
     };
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
     this.handleSwipeDown = this.handleSwipeDown.bind(this);
     this.handleSwipeLeft = this.handleSwipeLeft.bind(this);
     this.handleSwipeRight = this.handleSwipeRight.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  componentDidMount() {
+    const oMapChart = amChartsHelper.renderMap("am-charts-world-map");
+    oMapChart.events.on("onCountrySelected", (aEvent) => {
+      const sCountryId = aEvent.target.sSelectedCountry;
+      this.props.navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: sCountryId });
+    });
   }
 
   handleSwipeDown() {
@@ -73,40 +84,31 @@ class WorldMapPage extends React.Component {
     document.getElementById("search-world-map").value = "";
   }
 
-  render() {
-    const placeholderItem = {
-      0: { name: "Afghanistan" },
-      1: { name: "Afghanistan" },
-      2: { name: "Afghanistan" },
-      3: { name: "Afghanistan" },
-      4: { name: "Afghanistan" },
-      5: { name: "Afghanistan" },
-      6: { name: "Afghanistan" },
-      7: { name: "Afghanistan" },
-      8: { name: "Afghanistan" },
-      9: { name: "Afghanistan" },
-      10: { name: "Afghanistan" },
-      11: { name: "Afghanistan" },
-      12: { name: "Afghanistan" },
-      13: { name: "Afghanistan" },
-      14: { name: "Afghanistan" },
-      15: { name: "Afghanistan" },
-      16: { name: "Afghanistan" },
-      17: { name: "Afghanistan" },
-      18: { name: "Afghanistan" },
-      19: { name: "Afghanistan" },
-      20: { name: "Afghanistan" },
-      21: { name: "Afghanistan" },
-      22: { name: "Afghanistan" },
-      23: { name: "Afghanistan" },
-      24: { name: "Afghanistan" },
-      25: { name: "Afghanistan" },
-      26: { name: "Afghanistan" },
-      27: { name: "Afghanistan" },
-      28: { name: "Afghanistan" },
-      29: { name: "Afghanistan" },
-    };
+  handleClickCountry(country) {
+    this.setState({
+      visible: false,
+    });
+    this.props.navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: country.code });
+  }
 
+  handleSearch() {
+    let { placeholderItem } = this.state;
+    var input, filter, country;
+    input = document.getElementById("search-world-map");
+    filter = input.value.toUpperCase();
+    country = document.getElementsByClassName("country-world-map");
+
+    Object.values(placeholderItem).map(function (element, index) {
+      if (element.name.toUpperCase().indexOf(filter) > -1) {
+        country[index].style.display = "flex";
+      } else {
+        country[index].style.display = "none";
+      }
+    });
+  }
+
+  render() {
+    let { placeholderItem } = this.state;
     let { navigator, currentPage } = this.props;
 
     return (
@@ -144,30 +146,26 @@ class WorldMapPage extends React.Component {
               >
                 <div className="world-map-dialog">
                   <div className="search-container">
-                    <form className="search-form">
-                      <input
-                        id="search-world-map"
-                        className="search-input"
-                        type="text"
-                        placeholder="Qual o país que procura?"
-                        name="search"
-                      ></input>
-                    </form>
+                    <input
+                      id="search-world-map"
+                      className="search-input"
+                      type="text"
+                      placeholder="Qual o país que procura?"
+                      name="search"
+                      onChange={this.handleSearch}>
+                    </input>
                   </div>
 
                   <div className="country-container" style={{ height: "22vh" }}>
-                    {Object.values(placeholderItem).map(function (
-                      element,
-                      index
-                    ) {
+                    {Object.values(placeholderItem).map((element) => {
                       return (
-                        <div className="country">
+                        <div className="country country-world-map" onClick={() => this.handleClickCountry(element)}>
                           <img
                             className="country-flag"
                             src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"
                           ></img>
                           <div className="country-name">
-                            {element.name} , {index}
+                            {element.name}
                           </div>
                         </div>
                       );

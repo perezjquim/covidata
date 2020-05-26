@@ -5,6 +5,7 @@
 .world-map-dialog-container {
     height: 50%;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.26);
+    min-height: 300px;
 }
 
 .world-map-dialog {
