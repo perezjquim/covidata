@@ -67,7 +67,11 @@
 }
 
 .country-page-container .day-container .stat {
-    display: inline-block;
     font-size: 1.2em;
     font-weight: bold;
+    text-align: center;
+}
+
+.stats-content {
+    display: block;
 }

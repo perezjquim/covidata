@@ -57,19 +57,34 @@ class CountryPage extends React.Component {
                                     <div className="date">
                                         24 May 2020
                                     </div>
-                                    <div className="numbers">
-                                        <div className="stat infected">
-                                            Confirmed: 46
-                                        </div>
-                                        <div className="stat recovered">
-                                            Recovered: 6
-                                        </div>
-                                        <div className="stat dead">
-                                            Deaths: 1
-                                        </div>
-                                    </div>
                                     <div className="summary">
                                         Total 1768 cases, 122 recovered and 9 deaths
+                                    </div>
+                                    <div className="numbers">
+                                        <div className="stat infected">
+                                            <div className="stat-content">
+                                                Confirmed
+                                            </div>
+                                            <div className="stat-content">
+                                                46
+                                            </div>
+                                        </div>
+                                        <div className="stat recovered">
+                                            <div className="stat-content">
+                                                Recovered
+                                            </div>
+                                            <div className="stat-content">
+                                                46
+                                            </div>
+                                        </div>
+                                        <div className="stat dead">
+                                            <div className="stat-content">
+                                                Deaths
+                                            </div>
+                                            <div className="stat-content">
+                                                46
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             );

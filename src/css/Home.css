@@ -77,8 +77,11 @@
 }
 
 .home-page-container .stats-title {
-    font-weight: bolder;
-    font-family: 'Noto Sans TC', sans-serif !important;
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.home-page-container .stats-number {
     font-size: 1.4em;
 }
 
@@ -132,7 +135,7 @@
 
 .home-page-container .bookmark-title {
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1.4em;
     margin-bottom: 2%;
-    text-transform: uppercase;
+    font-weight: 500;
 }

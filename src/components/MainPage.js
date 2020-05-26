@@ -226,19 +226,19 @@ class MainPage extends React.Component {
 								return (
 									<div className="bookmark" >
 										<div className="bookmark-delete"><img onClick={() => this.handleDeleteBookmark(element)} src={DeleteIcon} /></div>
-										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: "PT" })}>
+										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: element.code })}>
 											<h1 className="bookmark-title text-stats">{element.name}</h1>
 											<div className="bookmark-stats-container">
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">512</h1>
+													<h1 className="stats-number text-stats">512</h1>
 													<h1 className="stats-desc text-stats">casos</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">87</h1>
+													<h1 className="stats-number text-stats">87</h1>
 													<h1 className="stats-desc text-stats">recuperados</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">25</h1>
+													<h1 className="stats-number text-stats">25</h1>
 													<h1 className="stats-desc text-stats">mortos</h1>
 												</div>
 											</div>
