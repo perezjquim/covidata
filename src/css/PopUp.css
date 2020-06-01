@@ -1,6 +1,6 @@
 .home-page-dialog .dialog-container--material {
     border-radius: 16px !important;
-    background-color: rgb(0, 0, 0, 0.3) !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
 .home-page-dialog .dialog {
