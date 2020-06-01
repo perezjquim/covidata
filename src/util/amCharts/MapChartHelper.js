@@ -15,7 +15,7 @@ export default class MapChartHelper
 {
         static renderMap(aMapChart)
         {
-                this._prepareMap(aMapChart);
+                setTimeout(() => this._prepareMap(aMapChart));
         }
         static toWorldView(aMapChart)
         {
@@ -96,10 +96,18 @@ export default class MapChartHelper
         }
         static _prepareMap(aMapChart)
         {
-                this._prepareGeneralConfig(aMapChart);
+                this._prepareGeneralConfig(aMapChart);           
                 this._prepareWorldView(aMapChart);
                 this._prepareCountryView(aMapChart);
                 this._setWorldVisibility(aMapChart, true);
+        }
+        static _setupHome(aMapChart)
+        {
+                aMapChart.homeZoomLevel = 30;    
+                aMapChart.homeGeoPoint = {
+                        latitude: 39,
+                        longitude: -8 
+                };                     
         }
         static _prepareGeneralConfig(aMapChart)
         {
@@ -107,6 +115,8 @@ export default class MapChartHelper
                 aMapChart.chartContainer.background.events.disableType("doublehit");
                 aMapChart.zoomControl = new am4maps.ZoomControl();
                 aMapChart.projection = new am4maps.projections.Miller();
+
+                this._setupHome(aMapChart);                     
 
                 /* const oHomeButton = new am4core.Button();
                 oHomeButton.events.on("hit", () => this.onHomeSelected(aMapChart));
@@ -259,6 +269,18 @@ export default class MapChartHelper
                 {
                         "id": "AR",
                         "value": 40764561
+                },
+                {
+                        "id": "PT",
+                        "value": 3999120
+                },
+                {
+                        "id": "ES",
+                        "value": 99999441
+                },
+                {
+                        "id": "FR",
+                        "value": 21764761                        
                 }];
                 return oData.map(aEntry =>
                 {

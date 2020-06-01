@@ -56,7 +56,7 @@ class MainPage extends React.Component {
 	}
 
 	componentDidMount() {
-		var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+		var bookmarks = JSON.parse(localStorage.getItem("bookmarks") || []);
 		var placeholderItem = this.state.placeholderItem;
 		var newBookmarks = [];
 
