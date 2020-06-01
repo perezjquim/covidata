@@ -25,32 +25,122 @@ import WorldMapPage from './WorldMapPage';
 import CountryPage from './CountryPage';
 // <<< amcharts helper
 
-class MainPage extends React.Component
-{
-	constructor(props) 
-	{
+class MainPage extends React.Component {
+	constructor(props) {
 		super(props);
 		this.state = {
-			visible: false
+			visible: false,
+			bookmarks: [],
+			placeholderItem: [
+				{ name: "Afghanistan", code: "AF" },
+				{ name: "Chile", code: "CL" },
+				{ name: "Ukraine", code: "UA" },
+				{ name: "Taiwan", code: "TW" },
+				{ name: "Senegal", code: "SN" },
+				{ name: "Russian Federation", code: "RU" },
+				{ name: "Portugal", code: "PT" },
+				{ name: "Puerto Rico", code: "PR" },
+				{ name: "Palau", code: "PW" },
+				{ name: "Maldives", code: "MV" },
+				{ name: "Kiribati", code: "KI" },
+				{ name: "Indonesia", code: "ID" },
+				{ name: "Germany", code: "DE" },
+				{ name: "Ecuador", code: "EC" },
+			]
 		};
 		this.handleDeleteBookmark = this.handleDeleteBookmark.bind(this);
 		this.handleAddBookmark = this.handleAddBookmark.bind(this);
+		this.handleAddBookmarkButton = this.handleAddBookmarkButton.bind(this);
 		this.handleCloseBookmark = this.handleCloseBookmark.bind(this);
+		this.checkIfExists = this.checkIfExists.bind(this);
 	}
 
-	handleDeleteBookmark(e) {
-		alert("Bookmark deleted: " + e);
+	componentDidMount() {
+		var bookmarks = JSON.parse(localStorage.getItem("bookmarks"));
+		var placeholderItem = this.state.placeholderItem;
+		var newBookmarks = [];
+
+		bookmarks.forEach(el => {
+			Object.values(placeholderItem).map((element) => {
+				if (element.code.indexOf(el) > -1) {
+					newBookmarks.push(element);
+				}
+			});
+		});
+
+		console.log(newBookmarks);
+
+		this.setState({
+			bookmarks: newBookmarks
+		});
 	}
 
-	handleAddBookmark() {
-		console.log("Bookmark added");
+	checkIfExists(country) {
+		var bookmarks = this.state.bookmarks;
+		var exists = false;
+
+		bookmarks.forEach(element => {
+			if (element.code.indexOf(country.code) > -1) {
+				exists = true;
+			}
+		});
+
+		return exists;
+	}
+
+	handleDeleteBookmark(country) {
+		var bookmarksStorage = JSON.parse(localStorage.getItem("bookmarks"));
+		var bookmarksState = this.state.bookmarks;
+
+		bookmarksStorage.forEach((element, index) => {
+			if (element.indexOf(country.code) > -1) {
+				bookmarksStorage.splice(index, 1);
+			}
+		});
+
+		bookmarksState.forEach((el, i) => {
+			if (el.code.indexOf(country.code) > -1) {
+				bookmarksState.splice(i, 1);
+			}
+		});
+
+		localStorage.setItem("bookmarks", JSON.stringify(bookmarksStorage));
+
+		this.setState({
+			bookmarks: bookmarksState
+		});
+	}
+
+	handleAddBookmark(country) {
+		var bookmarksStorage = JSON.parse(localStorage.getItem("bookmarks"));
+		var bookmarksState = this.state.bookmarks;
+		var newBookmarksStorage = [];
+		var newBookmarksState = [];
+
+		if (bookmarksStorage) newBookmarksStorage = bookmarksStorage;
+		if (bookmarksState) newBookmarksState = bookmarksState;
+
+		if (!this.checkIfExists(country)) {
+			newBookmarksStorage.push(country.code);
+			newBookmarksState.push(country);
+		}
+
+		localStorage.setItem("bookmarks", JSON.stringify(newBookmarksStorage));
+
+		this.setState({
+			bookmarks: newBookmarksState
+		});
+
+		this.handleCloseBookmark();
+	}
+
+	handleAddBookmarkButton() {
 		this.setState({
 			visible: true
 		});
 	}
 
 	handleCloseBookmark() {
-		console.log("Bookmark closed");
 		this.setState({
 			visible: false
 		});
@@ -58,46 +148,24 @@ class MainPage extends React.Component
 		document.getElementById('search').value = '';
 	}
 
+	handleSearch(placeholderItem) {
+		var input, filter, country;
+		input = document.getElementById("search");
+		filter = input.value.toUpperCase();
+		country = document.getElementsByClassName("country");
+
+		Object.values(placeholderItem).map(function (element, index) {
+			if (element.name.toUpperCase().indexOf(filter) > -1) {
+				country[index].style.display = "flex";
+			} else {
+				country[index].style.display = "none";
+			}
+		});
+	}
+
 	render() {
-		const placeholderItem = {
-			0: { name: "Afghanistan" },
-			1: { name: "Afghanistan" },
-			2: { name: "Afghanistan" },
-			3: { name: "Afghanistan" },
-			4: { name: "Afghanistan" },
-			5: { name: "Afghanistan" },
-			6: { name: "Afghanistan" },
-			7: { name: "Afghanistan" },
-			8: { name: "Afghanistan" },
-			9: { name: "Afghanistan" },
-			10: { name: "Afghanistan" },
-			11: { name: "Afghanistan" },
-			12: { name: "Afghanistan" },
-			13: { name: "Afghanistan" },
-			14: { name: "Afghanistan" },
-			15: { name: "Afghanistan" },
-			16: { name: "Afghanistan" },
-			17: { name: "Afghanistan" },
-			18: { name: "Afghanistan" },
-			19: { name: "Afghanistan" },
-			20: { name: "Afghanistan" },
-			21: { name: "Afghanistan" },
-			22: { name: "Afghanistan" },
-			23: { name: "Afghanistan" },
-			24: { name: "Afghanistan" },
-			25: { name: "Afghanistan" },
-			26: { name: "Afghanistan" },
-			27: { name: "Afghanistan" },
-			28: { name: "Afghanistan" },
-			29: { name: "Afghanistan" },
-		};
-
-		const placeholderBookmark = {
-			0: { name: "Afghanistan", cases: "10", recovered: "5", deaths: "12" },
-			1: { name: "Afghanistan", cases: "10", recovered: "5", deaths: "12" },
-		};
-
 		let { navigator, currentPage } = this.props;
+		let { bookmarks, placeholderItem } = this.state;
 
 		return (
 			<Page className="background home-page-container"
@@ -154,24 +222,23 @@ class MainPage extends React.Component
 						</div>
 
 						<div className="bookmark-container">
-
-							{Object.values(placeholderBookmark).map((element) => {
+							{Object.values(bookmarks).map((element) => {
 								return (
 									<div className="bookmark" >
-										<div className="bookmark-delete"><img onClick={this.handleDeleteBookmark} src={DeleteIcon} /></div>
-										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE" })}>
+										<div className="bookmark-delete"><img onClick={() => this.handleDeleteBookmark(element)} src={DeleteIcon} /></div>
+										<div onClick={() => navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: element.code })}>
 											<h1 className="bookmark-title text-stats">{element.name}</h1>
 											<div className="bookmark-stats-container">
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">{element.cases}</h1>
+													<h1 className="stats-number text-stats">512</h1>
 													<h1 className="stats-desc text-stats">casos</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">{element.recovered}</h1>
+													<h1 className="stats-number text-stats">87</h1>
 													<h1 className="stats-desc text-stats">recuperados</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-title text-stats">{element.deaths}</h1>
+													<h1 className="stats-number text-stats">25</h1>
 													<h1 className="stats-desc text-stats">mortos</h1>
 												</div>
 											</div>
@@ -180,36 +247,39 @@ class MainPage extends React.Component
 									</div>
 								);
 							})}
-
 						</div>
 
 						<PopUpDialog visible={this.state.visible} handleCloseBookmark={this.handleCloseBookmark}>
 							<div className="search-container">
-								<form className="search-form">
-									<input autofocus id="search" className="search-input" type="text" placeholder="Qual o país que procura?"
-										name="search"></input>
-								</form>
+								<input
+									autofocus
+									id="search"
+									className="search-input"
+									type="text"
+									placeholder="Qual o país que procura?"
+									name="search"
+									onChange={() => this.handleSearch(placeholderItem)}>
+								</input>
 							</div>
 
 							<div className="country-container" style={{ height: "80vh" }}>
-								{Object.values(placeholderItem).map(function (element, index) {
+								{Object.values(placeholderItem).map((element) => {
 									return (
-										<div className="country">
+										<div className="country" id={"country-" + element.code} onClick={() => this.handleAddBookmark(element)}>
 											<img className="country-flag" src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"></img>
 											<div className="country-name">
-												{element.name} , {index}
+												{element.name}
 											</div>
 										</div>
 									);
-								})}
-
+								})};
 							</div>
 						</PopUpDialog>
 
-						<div className="bookmark-add"><img onClick={this.handleAddBookmark} className="bookmark-add-icon" src={AddIcon} /></div>
+						<div className="bookmark-add"><img onClick={this.handleAddBookmarkButton} className="bookmark-add-icon" src={AddIcon} /></div>
 					</div>
-				</Swipeable>
-			</Page>
+				</Swipeable >
+			</Page >
 		);
 	}
 }

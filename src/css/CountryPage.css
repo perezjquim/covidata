@@ -9,6 +9,13 @@
     /*background-color: red;*/
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    visibility: hidden;
+}
+
+.country-page-container .graph-container>div {
+    flex: 1;
 }
 
 .country-page-container .back-button {
@@ -44,6 +51,7 @@
 
 .country-page-container .day-container .date {
     color: white;
+    font-size: 1.3em;
 }
 
 .country-page-container .day-container .numbers {
@@ -59,15 +67,11 @@
 }
 
 .country-page-container .day-container .stat {
-    display: inline-block;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
 }
 
-.country-page-container .day-container .stat:before {
-    content: "";
-    width: 25px;
-    height: 18px;
-    background-size: 25px 25px;
-    background-repeat: no-repeat;
-    display: inline-block;
-    background-image: url("https://cdn.iconscout.com/icon/premium/png-256-thumb/stats-27-370809.png");
+.stats-content {
+    display: block;
 }

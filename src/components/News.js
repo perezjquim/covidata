@@ -63,7 +63,7 @@ class News extends React.Component {
 
                     onSwipedLeft={() => navigator.pushPage({ component: Indications, key: this.props.pages[3].name })}>
                     <div className="page-container" >
-                        <Title title="news" />
+                        <Title title="notícias" />
                         <div className="news-container" >
                             {Object.values(placeholderItem).map((element, index) => {
                                 return (

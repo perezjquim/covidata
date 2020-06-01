@@ -14,12 +14,13 @@
 .indications-page-container .indication {
     color: white;
     margin: 5% auto;
+    position: relative;
 }
 
 .indications-page-container .indication-title {
     font-weight: bold;
     font-size: 1.2em;
-    position: relative;
+    width: 90%;
 }
 
 .indications-page-container .indication-icon {
@@ -35,4 +36,12 @@
     display: none;
     font-size: .8em;
     margin-top: 3%;
+}
+
+.indication-listitem {
+    border-bottom: 1px solid rgba(255, 255, 255, .7) !important;
+}
+
+.indication-listitem:first-child, .indication-listitem:last-child {
+    border: none;
 }

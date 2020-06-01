@@ -13,16 +13,20 @@ import amChartsHelper from '../util/amCharts';
 // <<<
 
 class CountryPage extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
-    // >>>
     componentDidMount() {
+        var content = document.getElementById("am-charts-graph");
+
         const oMapChart = amChartsHelper.renderMap("am-charts-graph");
 
         oMapChart.events.on("onReady", (aEvent) => {
             amChartsHelper.toCountryView(oMapChart, this.props.country);
+            content.style.visibility = "visible";
         });
     }
-    // <<<
 
     render() {
         const placeholderItem = {
@@ -45,8 +49,7 @@ class CountryPage extends React.Component {
                     <img src={BackButton} />
                 </div>
                 <div className="container" >
-                    <div className="graph-container" id="am-charts-graph">
-                    </div>
+                    <div className="graph-container" id="am-charts-graph"></div>
                     <div className="timeline-container">
                         {Object.values(placeholderItem).map((element) => {
                             return (
@@ -54,19 +57,34 @@ class CountryPage extends React.Component {
                                     <div className="date">
                                         24 May 2020
                                     </div>
-                                    <div className="numbers">
-                                        <div className="stat infected">
-                                            Confirmed: 46
-                                        </div>
-                                        <div className="stat recovered">
-                                            Recovered: 6
-                                        </div>
-                                        <div className="stat dead">
-                                            Deaths: 1
-                                        </div>
-                                    </div>
                                     <div className="summary">
                                         Total 1768 cases, 122 recovered and 9 deaths
+                                    </div>
+                                    <div className="numbers">
+                                        <div className="stat infected">
+                                            <div className="stat-content">
+                                                Confirmed
+                                            </div>
+                                            <div className="stat-content">
+                                                46
+                                            </div>
+                                        </div>
+                                        <div className="stat recovered">
+                                            <div className="stat-content">
+                                                Recovered
+                                            </div>
+                                            <div className="stat-content">
+                                                46
+                                            </div>
+                                        </div>
+                                        <div className="stat dead">
+                                            <div className="stat-content">
+                                                Deaths
+                                            </div>
+                                            <div className="stat-content">
+                                                46
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             );
