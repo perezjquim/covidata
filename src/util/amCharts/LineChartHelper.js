@@ -90,6 +90,7 @@ export default class LineChartHelper
                 oDateAxis.dataFields.dateX = "date";
 
                 const oValueAxis = aLineChart.yAxes.push(new am4charts.ValueAxis());
+                oValueAxis.hide();
 
                 const oLineSeries = aLineChart.series.push(new am4charts.LineSeries());             
                 oLineSeries.name = "Taxa de crescimento";
