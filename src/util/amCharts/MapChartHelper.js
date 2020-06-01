@@ -259,6 +259,18 @@ export default class MapChartHelper
                 {
                         "id": "AR",
                         "value": 40764561
+                },
+                {
+                        "id": "PT",
+                        "value": 3999120
+                },
+                {
+                        "id": "ES",
+                        "value": 99999441
+                },
+                {
+                        "id": "FR",
+                        "value": 21764761                        
                 }];
                 return oData.map(aEntry =>
                 {
