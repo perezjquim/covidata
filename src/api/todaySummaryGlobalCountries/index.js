@@ -1,8 +1,8 @@
 export default class Country
 {
-  static async getCountries()
+  static async getTodaysSummary()
   {
-    const sUrl = `https://api.covid19api.com/countries`;
+    const sUrl = `https://api.covid19api.com/summary`;
 
     const oHeaders = { 
      

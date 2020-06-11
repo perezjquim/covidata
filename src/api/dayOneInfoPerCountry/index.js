@@ -1,8 +1,8 @@
 export default class Country
 {
-  static async getCountries()
+  static async getDayOneInfoCountry(country)
   {
-    const sUrl = `https://api.covid19api.com/countries`;
+    const sUrl = `https://api.covid19api.com/dayone/country/${country}`;
 
     const oHeaders = { 
      
