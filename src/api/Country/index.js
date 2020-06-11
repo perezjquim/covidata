@@ -17,7 +17,7 @@ export default class API
     const oResult = await oResponse.json();
 
     //get name and abrv for each country
-    const {Country, ISO2} = oResponse;
+    const { Country, ISO2 } = oResponse;
     
     return oResult;
   }

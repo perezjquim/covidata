@@ -15,6 +15,8 @@ export default class API
     });
 
     const oResult = await oResponse.json();
+
+    const { Country, CountryCode, Date, Confirmed, Deaths, Recovered, Active } = oResponse; 
     
     return oResult;
   }

@@ -15,6 +15,7 @@ export default class API
     });
 
     const oResult = await oResponse.json();
+    const { Global, Countries } = oResponse;
     
     return oResult;
   }
