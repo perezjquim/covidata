@@ -1,4 +1,4 @@
-export default class Country
+export default class API
 {
   static async getTodaysSummary()
   {
