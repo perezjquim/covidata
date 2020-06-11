@@ -1,8 +1,8 @@
 export default class Country
 {
-  static async countries(country)
+  static async getCountries()
   {
-    const sUrl = `https://api.covid19api.com/${country.trim()}`;
+    const sUrl = `https://api.covid19api.com/countries`;
 
     const oHeaders = { 
       Country: "Nome",
