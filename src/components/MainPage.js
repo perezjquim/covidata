@@ -26,8 +26,7 @@ import CountryPage from './CountryPage';
 // <<< amcharts helper
 
 // >>> api helper
-import "babel-polyfill";
-import { API as CountryAPIHelper } from "../util/api/Country";
+import CountryAPIHelper from "../util/api/Country";
 // <<< api helper
 
 class MainPage extends React.Component {
@@ -60,7 +59,7 @@ class MainPage extends React.Component {
 		this.checkIfExists = this.checkIfExists.bind(this);
 	}
 
-	async componentDidMount() {
+	 componentDidMount() {
 		var bookmarks = JSON.parse(localStorage.getItem("bookmarks") || []);
 		var placeholderItem = this.state.placeholderItem;
 		var newBookmarks = [];
@@ -72,10 +71,6 @@ class MainPage extends React.Component {
 				}
 			});
 		});
-
-		// >>> jperez - log removal
-		// console.log(newBookmarks);
-		// <<< jperez - log removal
 
 		this.setState({
 			bookmarks: newBookmarks

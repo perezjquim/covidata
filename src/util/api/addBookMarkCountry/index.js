@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 export default class API
 {
   // receives the array of bookmarks
