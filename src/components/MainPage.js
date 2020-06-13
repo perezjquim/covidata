@@ -25,6 +25,11 @@ import WorldMapPage from './WorldMapPage';
 import CountryPage from './CountryPage';
 // <<< amcharts helper
 
+// >>> api helper
+import "babel-polyfill";
+import APIHelper from '../util/api';
+// <<< api helper
+
 class MainPage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -55,7 +60,7 @@ class MainPage extends React.Component {
 		this.checkIfExists = this.checkIfExists.bind(this);
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
 		var bookmarks = JSON.parse(localStorage.getItem("bookmarks") || []);
 		var placeholderItem = this.state.placeholderItem;
 		var newBookmarks = [];
