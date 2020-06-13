@@ -5,7 +5,8 @@ export default class API
     const sUrl = `https://api.smartable.ai/coronavirus//news/global`;
 
     const oHeaders = { 
-      "Subscription-Key": "6f718b8439f04c73af0ab73b67ea4a7d"
+      "Subscription-Key": "6f718b8439f04c73af0ab73b67ea4a7d",
+      "Cache-Control": "no-cache"
     };
 
     const oResponse = await fetch(sUrl,
