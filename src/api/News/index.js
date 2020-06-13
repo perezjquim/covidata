@@ -1,11 +1,11 @@
 export default class API
 {
-  static async getTodaysSummary()
+  static async getGlobalNews()
   {
-    const sUrl = `https://api.covid19api.com/summary`;
+    const sUrl = `https://api.smartable.ai/coronavirus//news/global`;
 
     const oHeaders = { 
-     
+      "Subscription-Key": "6f718b8439f04c73af0ab73b67ea4a7d"
     };
 
     const oResponse = await fetch(sUrl,
@@ -16,9 +16,6 @@ export default class API
 
     const oResult = await oResponse.json();
 
-    // totais Mortes, Recuperadaos.. por País, e Global.
-    const { Global, Countries } = oResponse;
-    
     return oResult;
   }
 }
