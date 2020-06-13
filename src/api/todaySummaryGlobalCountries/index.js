@@ -15,6 +15,8 @@ export default class API
     });
 
     const oResult = await oResponse.json();
+
+    // totais Mortes, Recuperdaos.. por País, e Global.
     const { Global, Countries } = oResponse;
     
     return oResult;
