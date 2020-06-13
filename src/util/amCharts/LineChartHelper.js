@@ -1,8 +1,10 @@
+import TimelineAPIHelper from '../api/dayOneInfoPerCountry';
+
 export default class LineChartHelper
 {
         static renderLineChart(aLineChart)
         {
-                aLineChart.data = this._getLineChartData();
+                aLineChart.data = [];
                 this._prepareLineSeries(aLineChart);
                 this._setVisibility(aLineChart, false);
         }
@@ -10,9 +12,9 @@ export default class LineChartHelper
         {
         	this._setVisibility(aLineChart, false);
         }
-        static onCountryChanged(aLineChart, aCountryId)
+        static async onCountryChanged(aLineChart, aCountryId)
         {
-                aLineChart.data = this._getLineChartData(aCountryId);
+                aLineChart.data = await this._getLineChartData(aCountryId);
                 this._setVisibility(aLineChart, true);
         }
         static _setVisibility(aLineChart, aShow)
@@ -20,63 +22,16 @@ export default class LineChartHelper
         	aLineChart.setDisabled(!aShow);	
         	if (aShow) aLineChart.show();
         }
-        static _getLineChartData(aCountryId)
+        static async _getLineChartData(aCountryId)
         {
-        	// TODO - descartar info dummy        	
-                return [
-                {
-                        "date": "2020-01-01",
-                        "growth_rate": 7.1,
-                },
-               {
-                        "date": "2020-01-31",
-                        "growth_rate": 9.1,
-                },                
-                {
-                        "date": "2020-02-01",
-                        "growth_rate": 10.2
-                },
-                {
-                        "date": "2020-02-28",
-                        "growth_rate": 21.7
-                },
-                {
-                        "date": "2020-03-01",
-                        "growth_rate": 40.8
-                },
-                {
-                        "date": "2020-03-15",
-                        "growth_rate": 62.9
-                },
-                {
-                        "date": "2020-03-30",
-                        "growth_rate": 67.7
-                },
-                {
-                        "date": "2020-04-01",
-                        "growth_rate": 67.8
-                },
-                {
-                        "date": "2020-04-15",
-                        "growth_rate": 55.5
-                },
-                {
-                        "date": "2020-04-30",
-                        "growth_rate": 41.1
-                },
-                {
-                        "date": "2020-05-01",
-                        "growth_rate": 35.1
-                },
-                {
-                        "date": "2020-05-15",
-                        "growth_rate": 11.2
-                },
-                {
-                        "date": "2020-05-30",
-                        "growth_rate": 7.1
-                }
-                ];
+            const oData = await TimelineAPIHelper.getDayOneInfoCountry(aCountryId);
+            return oData.map((aEntry) =>
+            {
+                return {
+                    "date": aEntry.Date.substr(0,10),
+                    "active": aEntry.Active
+                };
+            });
         }
         static _prepareLineSeries(aLineChart)
         {
@@ -93,9 +48,9 @@ export default class LineChartHelper
                 oValueAxis.hide();
 
                 const oLineSeries = aLineChart.series.push(new am4charts.LineSeries());             
-                oLineSeries.name = "Taxa de crescimento";
+                oLineSeries.name = "Nº casos ativos";
                 oLineSeries.dataFields.dateX = "date";
-                oLineSeries.dataFields.valueY = "growth_rate";
+                oLineSeries.dataFields.valueY = "active";
 
                 const oBullet = oLineSeries.bullets.push(new am4charts.CircleBullet());
                 oBullet.circle.fill = am4core.color("#fff");

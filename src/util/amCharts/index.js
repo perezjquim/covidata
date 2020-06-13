@@ -16,23 +16,6 @@ export default class amChartsHelper
         {
                 MapChartHelper.toCountryView(aMapChart, aCountryId);
         }
-        static renderPie(aDivId)
-        {
-                const oChart = this._createElement(aDivId, am4charts.PieChart);
-                oChart.legend = new am4charts.Legend();
-                oChart.data = [
-                {
-                        "country": "A",
-                        "visits": 12
-                },
-                {
-                        "country": "B",
-                        "visits": 34
-                }];
-                const oSeries = oChart.series.create();
-                oSeries.dataFields.value = "visits";
-                oSeries.dataFields.category = "country";
-        }
         static onDispose(aDivId)
         {
                 const oElement = this.oElements[aDivId];

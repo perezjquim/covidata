@@ -27,7 +27,7 @@ import CountryPage from './CountryPage';
 
 // >>> api helper
 import "babel-polyfill";
-import APIHelper from '../util/api';
+import { API as CountryAPIHelper } from "../util/api/Country";
 // <<< api helper
 
 class MainPage extends React.Component {
@@ -73,7 +73,9 @@ class MainPage extends React.Component {
 			});
 		});
 
-		console.log(newBookmarks);
+		// >>> jperez - log removal
+		// console.log(newBookmarks);
+		// <<< jperez - log removal
 
 		this.setState({
 			bookmarks: newBookmarks
