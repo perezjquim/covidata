@@ -25,6 +25,10 @@ import WorldMapPage from './WorldMapPage';
 import CountryPage from './CountryPage';
 // <<< amcharts helper
 
+// >>> api helper
+import CountryAPIHelper from "../util/api/Country";
+// <<< api helper
+
 class MainPage extends React.Component {
 	constructor(props) {
 		super(props);
@@ -55,7 +59,7 @@ class MainPage extends React.Component {
 		this.checkIfExists = this.checkIfExists.bind(this);
 	}
 
-	componentDidMount() {
+	 componentDidMount() {
 		var bookmarks = JSON.parse(localStorage.getItem("bookmarks") || []);
 		var placeholderItem = this.state.placeholderItem;
 		var newBookmarks = [];
@@ -67,8 +71,6 @@ class MainPage extends React.Component {
 				}
 			});
 		});
-
-		console.log(newBookmarks);
 
 		this.setState({
 			bookmarks: newBookmarks

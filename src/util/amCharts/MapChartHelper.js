@@ -1,4 +1,6 @@
 import LineChartHelper from './LineChartHelper';
+import SummaryAPIHelper from '../api/todaySummaryGlobalCountries';
+
 const MAP_GEODATA_CONFIG_COUNTRIES = require("./config/countries");
 const MAP_SERIES_ID_COUNTRY = "COUNTRY";
 const MAP_SERIES_ID_WORLD = "WORLD";
@@ -11,6 +13,7 @@ const LOG_MESSAGE_TEMPLATES = {
         "UNKNOWN_MAP": "unknown map",
         "COUNTRY_LINE_CHART_NOT_FOUND": "country line chart not found"
 };
+
 export default class MapChartHelper
 {
         static renderMap(aMapChart)
@@ -167,9 +170,9 @@ export default class MapChartHelper
 
                 this._prepareSeriesPolygons(aMapChart, oCountryPolygon);
         }
-        static _prepareWorldBubbles(aMapChart)
+        static async _prepareWorldBubbles(aMapChart)
         {
-                const oData = this._getWorldBubblesData();
+                const oData = await this._getWorldBubblesData();
                 this._prepareBubbleSeries(aMapChart, oData, MAP_SERIES_ID_WORLD);
         }
         static _prepareCountryBubbles(aMapChart)
@@ -220,9 +223,9 @@ export default class MapChartHelper
                 if (aShowWorld)
                 {
                         oWorldSeries.show();
-                        oWorldBubbles.show();
+                        oWorldBubbles && oWorldBubbles.show();
                         oCountrySeries.hide();
-                        oCountryBubbles.hide();
+                        oCountryBubbles && oCountryBubbles.hide();
                         LineChartHelper.onCountryExit(oCountryLineChart);
                         aMapChart.dispatch("onWorldView");
                 }
@@ -289,27 +292,17 @@ export default class MapChartHelper
                         return aModifiedEntry;
                 });
         }
-        static _getWorldBubblesData()
+        static async _getWorldBubblesData()
         {
-        	// TODO - descartar info dummy        	
-                const oData = [
+                const oData = await SummaryAPIHelper.getTodaysSummary();
+                const oCountries = oData.Countries;
+                return oCountries.map(aEntry =>
                 {
-                        "id": "AU",
-                        "value": 22605732
-                },
-                {
-                        "id": "BH",
-                        "value": 1323535
-                },
-                {
-                        "id": "BD",
-                        "value": 150493658
-                }];
-                return oData.map(aEntry =>
-                {
-                        const aModifiedEntry = aEntry;
-                        aEntry.color = MAP_BUBBLES_COLOR;
-                        return aModifiedEntry;
+                        return {
+                                id: aEntry.CountryCode,
+                                value: aEntry.TotalConfirmed,
+                                color: MAP_BUBBLES_COLOR
+                        };
                 });
         }
         static _findSeries(oMapChart, aSeriesName)
