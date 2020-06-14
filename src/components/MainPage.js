@@ -64,11 +64,12 @@ class MainPage extends React.Component {
 	}
 
 	async componentDidMount() {
-		const oCountries = await CountryAPIHelper.getCountries();
+		const oCountries = await BookmarkAPIHelper.getBookMarkedCountries();
 		const oCountriesMapped = oCountries.map((aEntry) => {
 			return {
-				name: aEntry.Country,
-				code: aEntry.ISO2,
+				name: aEntry.country,
+				code: aEntry.countryInfo.iso2,
+				flag: aEntry.countryInfo.flag
 			};
 		});
 
@@ -89,13 +90,14 @@ class MainPage extends React.Component {
 					code: aEntry.countryInfo.iso2
 				};
 			})
-			: newBookmarks = [{
+			: Object.keys(oBookmark).length === 23 &&
+			(newBookmarks = [{
 				confirmed: oBookmark.cases,
 				recovered: oBookmark.recovered,
 				deaths: oBookmark.deaths,
 				name: oBookmark.country,
-				code: oBookmark.countryInfo.iso2
-			}];
+				code: oBookmark.countryInfo && oBookmark.countryInfo.iso2
+			}]);
 
 		const oData = await MainPageAPIHelper.getTodaysSummary();
 		const oSummary = oData.Global;
@@ -124,7 +126,7 @@ class MainPage extends React.Component {
 		var bookmarks = this.state.bookmarks;
 		var exists = false;
 
-		bookmarks.forEach(element => {
+		bookmarks !== 0 && bookmarks.forEach(element => {
 			if (element.code.indexOf(country.code) > -1) {
 				exists = true;
 			}
@@ -319,7 +321,7 @@ class MainPage extends React.Component {
 								{Object.values(countries).map((element) => {
 									return (
 										<div className="country" id={"country-" + element.code} onClick={() => this.handleAddBookmark(element)}>
-											<img className="country-flag" src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"></img>
+											<img className="country-flag" src={element.flag}></img>
 											<div className="country-name">
 												{element.name}
 											</div>

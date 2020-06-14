@@ -15,7 +15,7 @@ import News from "./News";
 import amChartsHelper from '../util/amCharts';
 // <<<
 
-import CountryAPIHelper from "../util/api/Country";
+import BookmarkAPIHelper from '../util/api/addBookMarkCountry';
 
 import CountryPage from './CountryPage';
 
@@ -24,22 +24,6 @@ class WorldMapPage extends React.Component {
     super(props);
     this.state = {
       visible: false,
-      placeholderItem: [
-        { name: "Afghanistan", code: "AF" },
-        { name: "Chile", code: "CL" },
-        { name: "Ukraine", code: "UA" },
-        { name: "Taiwan", code: "TW" },
-        { name: "Senegal", code: "SN" },
-        { name: "Russian Federation", code: "RU" },
-        { name: "Portugal", code: "PT" },
-        { name: "Puerto Rico", code: "PR" },
-        { name: "Palau", code: "PW" },
-        { name: "Maldives", code: "MV" },
-        { name: "Kiribati", code: "KI" },
-        { name: "Indonesia", code: "ID" },
-        { name: "Germany", code: "DE" },
-        { name: "Ecuador", code: "EC" },
-      ],
       countries: [],
     };
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
@@ -56,11 +40,12 @@ class WorldMapPage extends React.Component {
       this.props.navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: sCountryId });
     });
 
-    const oCountries = await CountryAPIHelper.getCountries();
+    const oCountries = await BookmarkAPIHelper.getBookMarkedCountries();
     const oCountriesMapped = oCountries.map((aEntry) => {
       return {
-        name: aEntry.Country,
-        code: aEntry.ISO2,
+        name: aEntry.country,
+        code: aEntry.countryInfo.iso2,
+        flag: aEntry.countryInfo.flag
       };
     });
 
@@ -123,7 +108,7 @@ class WorldMapPage extends React.Component {
   }
 
   render() {
-    let { placeholderItem, countries } = this.state;
+    let { countries } = this.state;
     let { navigator, currentPage } = this.props;
 
     return (
@@ -177,7 +162,7 @@ class WorldMapPage extends React.Component {
                         <div className="country country-world-map" onClick={() => this.handleClickCountry(element)}>
                           <img
                             className="country-flag"
-                            src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"
+                            src={element.flag}
                           ></img>
                           <div className="country-name">
                             {element.name}
