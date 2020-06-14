@@ -1,0 +1,14 @@
+.page-title {
+    margin: 7% 0;
+}
+
+.page-title-main {
+    display: inline;
+    color: white;
+}
+
+.page-title-secondary {
+    display: inline;
+    color: rgb(252, 70, 107);
+    font-size: 1.8em;
+}

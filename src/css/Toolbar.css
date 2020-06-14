@@ -1,0 +1,10 @@
+ons-toolbar:not([inline]) {
+    bottom: 0;
+    top: auto !important;
+}
+
+.center {
+    display: flex !important;
+    justify-content: center !important;
+    margin: auto 15px !important;
+}

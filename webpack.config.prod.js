@@ -37,7 +37,7 @@ module.exports = {
       { test: /\.js$|\.jsx$/,
         exclude: [/node_modules/],
         loaders: [
-          'babel-loader?' + JSON.stringify({presets: ['@babel/react', ['@babel/env', {"modules": "amd"}]]})
+          'babel-loader?' + JSON.stringify({presets: ['@babel/preset-react', ['@babel/preset-env', {"modules": "amd"}]]})
         ]
       }
     ]

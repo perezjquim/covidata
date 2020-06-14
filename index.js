@@ -7,10 +7,7 @@ import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import {AppContainer} from 'react-hot-loader';
 
-import weatherApp from './src/reducers';
 import App from './src/components/App';
-
-import './src/icons/css/weather-icons.css';
 
 import ons from 'onsenui';
 import 'onsenui/css/onsenui.css';
@@ -18,30 +15,11 @@ import './src/stylus/index.styl';
 
 const logger = createLogger();
 
-const store = createStore(weatherApp,
-  window.devToolsExtension ? window.devToolsExtension() : f => f,
-  process.env.NODE_ENV === 'production'
-    ? applyMiddleware(thunk)
-    : applyMiddleware(thunk, logger)
-);
-
-import {addLocationAndFetchWeather} from './src/actions';
-
-[
-  'Tokyo',
-  'New York',
-  'London',
-  'Beijing',
-  'Sydney',
-  'Rio de Janeiro',
-  'Istanbul'
-].forEach((city) => store.dispatch(addLocationAndFetchWeather(city)));
-
 const rootElement = document.getElementById('root');
 
 ons.ready(() => render(
   <AppContainer>
-    <Provider store={store}>
+    <Provider>
       <App />
     </Provider>
   </AppContainer>,
@@ -53,7 +31,7 @@ if (module.hot) {
     const NextApp = require('./src/components/App').default;
     render(
       <AppContainer>
-        <Provider store={store}>
+        <Provider>
           <NextApp />
         </Provider>
       </AppContainer>,

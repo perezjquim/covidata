@@ -31,3 +31,22 @@ export const weatherCodeToColor = (code) => {
     return CLEAR;
   }
 };
+
+export const pages = [
+  {
+    order: 1,
+    name: "HOME_PAGE"
+  },
+  {
+    order: 2,
+    name: "WORLD_MAP_PAGE"
+  },
+  {
+    order: 4,
+    name: "INDICATIONS_PAGE"
+  },
+  {
+    order: 3,
+    name: "NEWS_PAGE"
+  }
+];

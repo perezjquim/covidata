@@ -1,0 +1,141 @@
+.home-page-container .infected {
+    width: 100% !important;
+    margin: auto;
+}
+
+.home-page-container .dead {
+    width: 20% !important;
+    margin: auto !important;
+}
+
+.home-page-container .recovered {
+    width: 65% !important;
+    margin: auto !important;
+}
+
+.home-page-container .graph-circle {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.home-page-container .page-container {
+    margin: auto 15px;
+}
+
+.home-page-container .progress-circular__secondary {
+    opacity: 0.2;
+}
+
+.home-page-container svg:not(:root) {
+    overflow: visible;
+}
+
+.home-page-container .progress-circular__primary, .progress-circular__secondary {
+    stroke: currentColor !important;
+    stroke-width: 8%;
+}
+
+.home-page-container ons-progress-circular {
+    height: auto !important;
+}
+
+.home-page-container .donut-scale-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.home-page-container .donut-scale-graph {
+    position: relative;
+    width: 60%;
+}
+
+.home-page-container .donut-scale-stats-container {
+    width: 40%;
+}
+
+.home-page-container .donut-scale-stats {
+    margin: 5px 0;
+}
+
+.home-page-container .donut-scale-text-container {
+    display: flex;
+    align-items: center;
+}
+
+.home-page-container .donut-scale-dot {
+    width: 15px;
+    height: auto;
+}
+
+.home-page-container .text-stats {
+    margin: 0 0;
+    color: white;
+}
+
+.home-page-container .stats-title {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.home-page-container .stats-number {
+    font-size: 1.4em;
+}
+
+.home-page-container .stats-desc {
+    font-size: .7em;
+}
+
+.home-page-container .bookmark-container {
+    margin: 40px 10px;
+}
+
+.home-page-container .bookmark {
+    background-color: rgba(255, 255, 255, 0.22);
+    padding: 18px;
+    border-radius: 24px;
+    margin: 16px 5px;
+    position: relative;
+}
+
+.home-page-container .bookmark-delete {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    width: 15px;
+    height: auto;
+}
+
+.home-page-container .bookmark-add {
+    position: fixed;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    height: auto;
+}
+
+.home-page-container .bookmark-add-icon {
+    width: 100%;
+    height: auto;
+}
+
+.home-page-container .bookmark-stats-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.home-page-container .bookmark-stats {
+    text-align: center;
+}
+
+.home-page-container .bookmark-title {
+    text-align: center;
+    font-size: 1.4em;
+    margin-bottom: 2%;
+    font-weight: 500;
+}

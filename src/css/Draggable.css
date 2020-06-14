@@ -1,0 +1,78 @@
+.world-map-page-container .dialog-mask--material {
+    background-color: transparent !important;
+}
+
+.world-map-dialog-container {
+    height: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.26);
+    min-height: 300px;
+}
+
+.world-map-dialog {
+    display: flex;
+    flex-direction: column;
+    margin: auto 5%;
+    height: 100%;
+}
+
+.world-map-dialog-container .dialog {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0px !important;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(41, 88, 135, 1) 0%, rgba(43, 130, 181, 1) 100%) !important;
+}
+
+.world-map-dialog-container .dialog>div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.country-container {
+    flex: auto;
+}
+
+.absolute-draggable-container {
+    position: relative;
+    width: 100%;
+}
+
+.absolute-draggable {
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    height: 100px;
+    width: 100%;
+}
+
+.draggable-icon-container {
+    display: flex;
+    justify-content: center;
+    background: transparent;
+    /* >>> */
+    z-index: 99999;
+    /* <<< */
+}
+
+.draggable-icon {
+    height: 25px;
+}
+
+.absolute-icon {
+    height: 30px;
+    width: 25%;
+    background: rgb(41, 88, 135) !important;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.map-container {
+    height: 100%;
+    width: 100%;
+    /*background-color: brown;*/
+}
