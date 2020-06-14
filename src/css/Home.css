@@ -135,7 +135,7 @@
 
 .home-page-container .bookmark-title {
     text-align: center;
-    font-size: 1.4em;
+    font-size: 1.1em !important;
     margin-bottom: 2%;
     font-weight: 500;
 }

@@ -15,6 +15,8 @@ import News from "./News";
 import amChartsHelper from '../util/amCharts';
 // <<<
 
+import CountryAPIHelper from "../util/api/Country";
+
 import CountryPage from './CountryPage';
 
 class WorldMapPage extends React.Component {
@@ -37,7 +39,8 @@ class WorldMapPage extends React.Component {
         { name: "Indonesia", code: "ID" },
         { name: "Germany", code: "DE" },
         { name: "Ecuador", code: "EC" },
-      ]
+      ],
+      countries: [],
     };
     this.handleCloseSearch = this.handleCloseSearch.bind(this);
     this.handleSwipeDown = this.handleSwipeDown.bind(this);
@@ -46,11 +49,23 @@ class WorldMapPage extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const oMapChart = amChartsHelper.renderMap("am-charts-world-map");
     oMapChart.events.on("onCountrySelected", (aEvent) => {
       const sCountryId = aEvent.target.sSelectedCountry;
       this.props.navigator.pushPage({ component: CountryPage, key: "COUNTRY_PAGE", country: sCountryId });
+    });
+
+    const oCountries = await CountryAPIHelper.getCountries();
+    const oCountriesMapped = oCountries.map((aEntry) => {
+      return {
+        name: aEntry.Country,
+        code: aEntry.ISO2,
+      };
+    });
+
+    this.setState({
+      countries: oCountriesMapped
     });
   }
 
@@ -92,13 +107,13 @@ class WorldMapPage extends React.Component {
   }
 
   handleSearch() {
-    let { placeholderItem } = this.state;
+    let { countries } = this.state;
     var input, filter, country;
     input = document.getElementById("search-world-map");
     filter = input.value.toUpperCase();
     country = document.getElementsByClassName("country-world-map");
 
-    Object.values(placeholderItem).map(function (element, index) {
+    Object.values(countries).map(function (element, index) {
       if (element.name.toUpperCase().indexOf(filter) > -1) {
         country[index].style.display = "flex";
       } else {
@@ -108,7 +123,7 @@ class WorldMapPage extends React.Component {
   }
 
   render() {
-    let { placeholderItem } = this.state;
+    let { placeholderItem, countries } = this.state;
     let { navigator, currentPage } = this.props;
 
     return (
@@ -157,7 +172,7 @@ class WorldMapPage extends React.Component {
                   </div>
 
                   <div className="country-container" style={{ height: "22vh" }}>
-                    {Object.values(placeholderItem).map((element) => {
+                    {Object.values(countries).map((element) => {
                       return (
                         <div className="country country-world-map" onClick={() => this.handleClickCountry(element)}>
                           <img
