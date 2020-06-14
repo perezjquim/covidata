@@ -27,6 +27,8 @@ import CountryPage from './CountryPage';
 
 // >>> api helper
 import CountryAPIHelper from "../util/api/Country";
+import BookmarkAPIHelper from '../util/api/addBookMarkCountry';
+import MainPageAPIHelper from '../util/api/todaySummaryGlobalCountries';
 // <<< api helper
 
 class MainPage extends React.Component {
@@ -50,7 +52,9 @@ class MainPage extends React.Component {
 				{ name: "Indonesia", code: "ID" },
 				{ name: "Germany", code: "DE" },
 				{ name: "Ecuador", code: "EC" },
-			]
+			],
+			countries: [],
+			global: {}
 		};
 		this.handleDeleteBookmark = this.handleDeleteBookmark.bind(this);
 		this.handleAddBookmark = this.handleAddBookmark.bind(this);
@@ -59,22 +63,61 @@ class MainPage extends React.Component {
 		this.checkIfExists = this.checkIfExists.bind(this);
 	}
 
-	 componentDidMount() {
-		var bookmarks = JSON.parse(localStorage.getItem("bookmarks") || []);
-		var placeholderItem = this.state.placeholderItem;
-		var newBookmarks = [];
-
-		bookmarks.forEach(el => {
-			Object.values(placeholderItem).map((element) => {
-				if (element.code.indexOf(el) > -1) {
-					newBookmarks.push(element);
-				}
-			});
+	async componentDidMount() {
+		const oCountries = await CountryAPIHelper.getCountries();
+		const oCountriesMapped = oCountries.map((aEntry) => {
+			return {
+				name: aEntry.Country,
+				code: aEntry.ISO2,
+			};
 		});
+
+		var bookmarks = JSON.parse(localStorage.getItem("bookmarks") || []);
+
+		const oBookmark = await BookmarkAPIHelper.getBookMarkedCountries(bookmarks);
+		let newBookmarks = 0;
+
+		console.log(Object.keys(oBookmark).length);
+
+		Object.keys(oBookmark).length < 23
+			? newBookmarks = oBookmark.map((aEntry) => {
+				return {
+					confirmed: aEntry.cases,
+					recovered: aEntry.recovered,
+					deaths: aEntry.deaths,
+					name: aEntry.country,
+					code: aEntry.countryInfo.iso2
+				};
+			})
+			: newBookmarks = [{
+				confirmed: oBookmark.cases,
+				recovered: oBookmark.recovered,
+				deaths: oBookmark.deaths,
+				name: oBookmark.country,
+				code: oBookmark.countryInfo.iso2
+			}];
+
+		const oData = await MainPageAPIHelper.getTodaysSummary();
+		const oSummary = oData.Global;
+		const formattedGlobal = {
+			tDeaths: this.numberWithSpaces(oSummary.TotalDeaths),
+			tConfirmed: this.numberWithSpaces(oSummary.TotalConfirmed),
+			tRecovered: this.numberWithSpaces(oSummary.TotalRecovered),
+			sDeaths: oSummary.TotalDeaths * 100 / oSummary.TotalConfirmed,
+			sRecovered: oSummary.TotalRecovered * 100 / oSummary.TotalConfirmed
+		};
 
 		this.setState({
-			bookmarks: newBookmarks
+			bookmarks: newBookmarks,
+			global: formattedGlobal,
+			countries: oCountriesMapped
 		});
+
+		console.log(this.state);
+	}
+
+	numberWithSpaces(x) {
+		return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 	}
 
 	checkIfExists(country) {
@@ -113,7 +156,7 @@ class MainPage extends React.Component {
 		});
 	}
 
-	handleAddBookmark(country) {
+	async handleAddBookmark(country) {
 		var bookmarksStorage = JSON.parse(localStorage.getItem("bookmarks"));
 		var bookmarksState = this.state.bookmarks;
 		var newBookmarksStorage = [];
@@ -124,7 +167,15 @@ class MainPage extends React.Component {
 
 		if (!this.checkIfExists(country)) {
 			newBookmarksStorage.push(country.code);
-			newBookmarksState.push(country);
+			const oBookmark = await BookmarkAPIHelper.getBookMarkedCountries(country.code);
+			const newBookmark = {
+				confirmed: oBookmark.message ? 0 : oBookmark.cases,
+				recovered: oBookmark.message ? 0 : oBookmark.recovered,
+				deaths: oBookmark.message ? 0 : oBookmark.deaths,
+				name: oBookmark.message ? country.name : oBookmark.country,
+				code: oBookmark.message ? country.code : oBookmark.countryInfo.iso2
+			};
+			newBookmarksState.push(newBookmark);
 		}
 
 		localStorage.setItem("bookmarks", JSON.stringify(newBookmarksStorage));
@@ -167,7 +218,7 @@ class MainPage extends React.Component {
 
 	render() {
 		let { navigator, currentPage } = this.props;
-		let { bookmarks, placeholderItem } = this.state;
+		let { bookmarks, global, countries } = this.state;
 
 		return (
 			<Page className="background home-page-container"
@@ -186,8 +237,8 @@ class MainPage extends React.Component {
 						<div className="donut-scale-container">
 							<div className="donut-scale-graph">
 								<ProgressCircular className="graph-circle infected" value={100} secondaryValue={100} />
-								<ProgressCircular className="graph-circle recovered" value={65} secondaryValue={100} />
-								<ProgressCircular className="graph-circle dead" value={28} secondaryValue={100} />
+								<ProgressCircular className="graph-circle recovered" value={global.sRecovered} secondaryValue={100} />
+								<ProgressCircular className="graph-circle dead" value={global.sDeaths} secondaryValue={100} />
 							</div>
 							<div className="donut-scale-stats-container">
 								<div className="donut-scale-text-container">
@@ -195,7 +246,7 @@ class MainPage extends React.Component {
 										<img className="donut-scale-dot" src={YellowDot} />
 									</div>
 									<div className="donut-scale-stats">
-										<h3 className="stats-title text-stats">100 921</h3>
+										<h3 className="stats-title text-stats">{this.state.global.tConfirmed}</h3>
 										<h4 className="stats-desc text-stats">casos</h4>
 									</div>
 								</div>
@@ -205,7 +256,7 @@ class MainPage extends React.Component {
 										<img className="donut-scale-dot" src={GreenDot} />
 									</div>
 									<div className="donut-scale-stats">
-										<h3 className="stats-title text-stats">12 921</h3>
+										<h3 className="stats-title text-stats">{this.state.global.tRecovered}</h3>
 										<h4 className="stats-desc text-stats">recuperados</h4>
 									</div>
 								</div>
@@ -215,7 +266,7 @@ class MainPage extends React.Component {
 										<img className="donut-scale-dot" src={RedDot} />
 									</div>
 									<div className="donut-scale-stats">
-										<h3 className="stats-title text-stats">5 546</h3>
+										<h3 className="stats-title text-stats">{this.state.global.tDeaths}</h3>
 										<h4 className="stats-desc text-stats">mortos</h4>
 									</div>
 								</div>
@@ -232,15 +283,15 @@ class MainPage extends React.Component {
 											<h1 className="bookmark-title text-stats">{element.name}</h1>
 											<div className="bookmark-stats-container">
 												<div className="bookmark-stats">
-													<h1 className="stats-number text-stats">512</h1>
+													<h1 className="stats-number text-stats">{element.confirmed}</h1>
 													<h1 className="stats-desc text-stats">casos</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-number text-stats">87</h1>
+													<h1 className="stats-number text-stats">{element.recovered}</h1>
 													<h1 className="stats-desc text-stats">recuperados</h1>
 												</div>
 												<div className="bookmark-stats">
-													<h1 className="stats-number text-stats">25</h1>
+													<h1 className="stats-number text-stats">{element.deaths}</h1>
 													<h1 className="stats-desc text-stats">mortos</h1>
 												</div>
 											</div>
@@ -260,12 +311,12 @@ class MainPage extends React.Component {
 									type="text"
 									placeholder="Qual o país que procura?"
 									name="search"
-									onChange={() => this.handleSearch(placeholderItem)}>
+									onChange={() => this.handleSearch(countries)}>
 								</input>
 							</div>
 
 							<div className="country-container" style={{ height: "80vh" }}>
-								{Object.values(placeholderItem).map((element) => {
+								{Object.values(countries).map((element) => {
 									return (
 										<div className="country" id={"country-" + element.code} onClick={() => this.handleAddBookmark(element)}>
 											<img className="country-flag" src="https://cdn.countryflags.com/thumbs/portugal/flag-round-250.png"></img>

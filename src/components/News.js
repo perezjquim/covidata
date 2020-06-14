@@ -18,7 +18,7 @@ class News extends React.Component {
         super(props);
 
         this.handleNewsClick = this.handleNewsClick.bind(this);
-        this.state = {news: []};
+        this.state = { news: [] };
     }
 
     handleNewsClick(el) {
@@ -27,31 +27,30 @@ class News extends React.Component {
         window.open(url, "_blank");
     }
 
-     async componentDidMount() {
-		const oData = await NewsAPIHelper.getGlobalNews();
-	    	const oNews = oData.news;
-	    	const oCurrentDate = new Date();
-	    	const iCurrentTime = oCurrentDate.getTime();
-	    	const oNewsMapped = oNews.map((aEntry) =>
-	    	{
-	    		const oImages = aEntry.images;
-	    		const sImg = oImages && oImages[0].url;
-	    		const sDate = aEntry.publishedDateTime.substr(0,10);
-	    		const oPublishDate = new Date(aEntry.publishedDateTime);
-	    		const iPublishTime = oPublishDate.getTime();
-	    		const iDiffMsec = iCurrentTime - iPublishTime;
-	    		const iMinutesAgo = Math.round(iDiffMsec / 60000);
-	    		return {
-	    			img: sImg,
-	    			date: sDate,
-	    			title: aEntry.title,
-	    			content: aEntry.excerpt,
-	    			url: aEntry.webUrl,
-	    			minutesAgo: iMinutesAgo
-	    		};
-	    	});
-		this.setState({news: oNewsMapped});	    	
-      }    
+    async componentDidMount() {
+        const oData = await NewsAPIHelper.getGlobalNews();
+        const oNews = oData.news;
+        const oCurrentDate = new Date();
+        const iCurrentTime = oCurrentDate.getTime();
+        const oNewsMapped = oNews.map((aEntry) => {
+            const oImages = aEntry.images;
+            const sImg = oImages && oImages[0].url;
+            const sDate = aEntry.publishedDateTime.substr(0, 10);
+            const oPublishDate = new Date(aEntry.publishedDateTime);
+            const iPublishTime = oPublishDate.getTime();
+            const iDiffMsec = iCurrentTime - iPublishTime;
+            const iMinutesAgo = Math.round(iDiffMsec / 60000);
+            return {
+                img: sImg,
+                date: sDate,
+                title: aEntry.title,
+                content: aEntry.excerpt,
+                url: aEntry.webUrl,
+                minutesAgo: iMinutesAgo
+            };
+        });
+        this.setState({ news: oNewsMapped });
+    }
 
     render() {
         let { navigator, currentPage } = this.props;
